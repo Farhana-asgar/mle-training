@@ -1,0 +1,9 @@
+{
+    "python.defaultInterpreterPath": "python",
+    "editor.formatOnSave": false,
+    "[typescript]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    }
+}
