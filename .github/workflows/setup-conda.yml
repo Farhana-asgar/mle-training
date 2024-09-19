@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:              # This triggers the workflow on push events
+    branches:       # You can specify branches here
+      - '**'        # This pattern matches all branches
+
+jobs:
+  example-5:
+    name: Ex5 Miniforge for PyPy
+    runs-on: "ubuntu-latest"
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+          allow-softlinks: true
+          show-channel-urls: true
+          use-only-tar-bz2: true
+      - run: |
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
