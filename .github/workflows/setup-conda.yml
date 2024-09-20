@@ -21,8 +21,14 @@ jobs:
           show-channel-urls: true
           use-only-tar-bz2: true
       - run: |
+          echo "Setting up conda env"
           conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
+          echo "activate conda env"
           conda activate mle-dev
-          echo activated
+          echo "conda env activated"
+          echo "running flake8"
           flake8 nonstandardcode.py
+          echo "flake8 ran successfully"
+          echo "Running nonstandardcode.py script"
           python nonstandardcode.py
+          echo "Done"
