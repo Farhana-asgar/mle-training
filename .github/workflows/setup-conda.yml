@@ -21,7 +21,7 @@ jobs:
           show-channel-urls: true
           use-only-tar-bz2: true
       - run: |
-          conda info
-          conda list
-          conda config --show-sources
-          conda config --show
+          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
+          conda activate mle-dev
+          python flake8 nonstandardcode.py
+          python nonstandardcode.py
