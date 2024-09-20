@@ -23,5 +23,6 @@ jobs:
       - run: |
           conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
           conda activate mle-dev
+          echo activated
           flake8 nonstandardcode.py
           python nonstandardcode.py
