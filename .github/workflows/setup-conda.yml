@@ -68,8 +68,7 @@ jobs:
         run: |
           pip list
           cd ..
-          cd mle-training/src/house_value_prediction/
-          python nonstandardcode.py
+          python -m house_value_prediction.nonstandardcode.py
       - name: Run the script
         run: |
           tree
