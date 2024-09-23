@@ -31,7 +31,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: house_value_prediction_artifacts
+          name: housevalueprediction_artifacts
           path: dist/*
   job_run:
     name: Install And Deploy
@@ -58,17 +58,17 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: house_value_prediction_artifacts
+          name: housevalueprediction_artifacts
           path: ./artifacts
       - name: Install the package
         run: |
           cd artifacts
           tree
-          pip install house_value_prediction-0.1-py3-none-any.whl
+          pip install housevalueprediction-0.1-py3-none-any.whl
       - name: Run nonstandardcode.py
         run: |
           pip list
-          python -m house_value_prediction.nonstandardcode
+          python -m housevalueprediction.nonstandardcode
       - name: Run the script
         run: |
           tree
