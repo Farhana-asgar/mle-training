@@ -4,19 +4,12 @@ on: [push]
 
 jobs:
   job_build:
-    name: Ex5 Miniforge for PyPy
+    name: Build and package
     runs-on: "ubuntu-latest"
     defaults:
       run:
         shell: bash -el {0}
     steps:
-      - uses: actions/checkout@v4
-      - uses: conda-incubator/setup-miniconda@v3
-        with:
-          installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
-          allow-softlinks: true
-          show-channel-urls: true
-          use-only-tar-bz2: true
       - name: Install Tree
         run: sudo apt-get install -y tree
       - name: Tree structure Before Packaging
@@ -62,8 +55,13 @@ jobs:
           path: ./artifacts
       - name: Install the package
         run: |
-          ls
-          pip install .
+          cd artifacts
+          tree
+          pip install house_value_prediction-0.1-py3-none-any.whl
+      - name: Run the script
+        run: |
+          tree
+
 #           flake8 nonstandardcode.py
 #           echo "flake8 ran successfully"
 #           echo "Running nonstandardcode.py script"
