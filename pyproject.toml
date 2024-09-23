@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "house-value-prediction"
+name = "house_value_prediction"
 version = "0.1"
 description = "A package for house value prediction"
 authors = [
