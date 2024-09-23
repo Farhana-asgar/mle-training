@@ -68,6 +68,7 @@ jobs:
         run: |
           pip list
           cd ..
+          tree
           cd src/house_value_prediction/nonstandardcode.py
           python nonstandardcode.py
       - name: Run the script
