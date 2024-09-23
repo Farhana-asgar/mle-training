@@ -67,7 +67,7 @@ jobs:
           pip install house_value_prediction-0.1-py3-none-any.whl
       - name: Run nonstandardcode.py
         run: |
-          cd src\house-value-prediction
+          pip list
           python -m house_value_prediction.nonstandardcode
       - name: Run the script
         run: |
