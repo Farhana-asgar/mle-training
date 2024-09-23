@@ -66,4 +66,4 @@ jobs:
       - name: Run nonstandardcode.py
         run: |
           cd ..
-          python -m house_value_prediction.nonstandardcode.py
+          python -m house_value_prediction.nonstandardcode
