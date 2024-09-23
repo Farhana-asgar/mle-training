@@ -1,9 +1,9 @@
 README.md
 pyproject.toml
-src/house-value-prediction/__init__.py
-src/house-value-prediction/data_ingestion.py
-src/house-value-prediction/data_loading.py
-src/house-value-prediction/nonstandardcode.py
+src/house_value_prediction/__init__.py
+src/house_value_prediction/data_ingestion.py
+src/house_value_prediction/data_loading.py
+src/house_value_prediction/nonstandardcode.py
 src/house_value_prediction.egg-info/PKG-INFO
 src/house_value_prediction.egg-info/SOURCES.txt
 src/house_value_prediction.egg-info/dependency_links.txt
