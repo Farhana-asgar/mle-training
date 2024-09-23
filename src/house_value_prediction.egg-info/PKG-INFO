@@ -1,0 +1,22 @@
+Metadata-Version: 2.1
+Name: house-value-prediction
+Version: 0.1
+Summary: A package for house value prediction
+Author-email: Farhana Mohamed Asgar <farhana.asgar@tigeranalytics.com>
+Keywords: regression,machine learning,data processing
+Classifier: Programming Language :: Python :: 3
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Requires-Dist: scipy
+Requires-Dist: six
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+
+Median housing value prediction code is available in this repo
+
+## To excute the script
+python nonstandardcode.py

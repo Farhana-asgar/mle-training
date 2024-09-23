@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "house-value-prediction"
+version = "0.1"
+description = "A package for house value prediction"
+authors = [
+    { name = "Farhana Mohamed Asgar", email = "farhana.asgar@tigeranalytics.com" }
+]
+readme = "README.md"
+keywords = ["regression", "machine learning", "data processing"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+
+# Dependencies
+dependencies = [
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "scipy",
+    "six",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black", # For code formatting
+    "isort", # Sort imports
+    "flake8",  # For linting
+]
