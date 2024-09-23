@@ -51,7 +51,8 @@ jobs:
       - name: Conda Setup
         run: |
           echo "Setting up conda env"
-          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8 -y
+          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
+          conda list matplotlib
           echo "activate conda env"
           conda activate mle-dev
           echo "conda env activated"
@@ -69,9 +70,6 @@ jobs:
           pip list
           cd ..
           python -m house_value_prediction.nonstandardcode.py
-      - name: Run the script
-        run: |
-          tree
 
 #           flake8 nonstandardcode.py
 #           echo "flake8 ran successfully"
