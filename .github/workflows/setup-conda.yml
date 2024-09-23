@@ -23,7 +23,8 @@ jobs:
         run: tree
       - name: Build the package
         run: |
-          sudo apt-get install build
+          sudo apt-get install python3 python3-pip
+          pip3 install build
           python -m build
       - name: Tree structure After Packaging
         run: tree
