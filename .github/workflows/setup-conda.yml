@@ -1,9 +1,11 @@
 name: Trigger on PR Approval
 
-on: [push]
+on:
+  pull_request_review:
+    types: [submitted]
 
 jobs:
-  job_build:
+  example-5:
     name: Ex5 Miniforge for PyPy
     runs-on: "ubuntu-latest"
     defaults:
@@ -17,88 +19,15 @@ jobs:
           allow-softlinks: true
           show-channel-urls: true
           use-only-tar-bz2: true
-      - name: Install Tree
-        run: sudo apt-get install -y tree
-      - name: Tree structure Before Packaging
-        run: tree
-      - name: Build the package
-        run: |
-          sudo apt-get install python3 python3-pip
-          pip3 install build
-          python -m build
-      - name: Tree structure After Packaging
-        run: tree
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: house-value-prediction-artifacts
-          path: dist/*
-  job_run:
-    name: Install And Deploy
-    runs-on: "ubuntu-latest"
-    needs: job_build
-    defaults:
-      run:
-        shell: bash -el {0}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: conda-incubator/setup-miniconda@v3
-        with:
-          installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
-          allow-softlinks: true
-          show-channel-urls: true
-          use-only-tar-bz2: true
-      - name: Conda Setup
-        run: |
+      - run: |
           echo "Setting up conda env"
-          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8 -y
+          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
           echo "activate conda env"
           conda activate mle-dev
           echo "conda env activated"
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: house-value-prediction-artifacts
-          path: ./artifacts
-      - name: Install the package
-        run: |
-          ls
-          pip install .
-#           flake8 nonstandardcode.py
-#           echo "flake8 ran successfully"
-#           echo "Running nonstandardcode.py script"
-#           python nonstandardcode.py
-#           echo "Done"
-#       - name: Upload artifacts
-#         uses: actions/upload-artifact@v4
-#         with:
-#           name: my-artifact
-#           path: dist/
-
-#   download:
-#     runs-on: ubuntu-latest
-#     needs: build  # Ensures this job runs after the build job
-#     steps:
-#       - name: Download Artifacts
-#         uses: actions/download-artifact@v3
-#         with:
-#           name: dist  # The name of the artifact to download
-#           path: output       # The directory where the artifact will be downloaded
-
-#       - name: List downloaded files
-#         run: |
-#           ls output
-
-
-
-# Install tree cli tool
-# b. Display the directory tree in the workflow before building.
-# c. Build the package
-# d. Display the directory tree in the workflow after building.
-# e. Upload the build artifacts using upload actions (refer upload build artifacts)
-# 4. Setup a github workflow job for installing and deploying (running) the
-# nonstandardcode.py using the following steps:
-# a. Conda setup from previous assignment
-# b. Download the artifact using download action (refer download generated artifacts)
-# c. Install the package
-# d. Run the nonstandardcode.py from the installed package.
+          echo "running flake8"
+          flake8 nonstandardcode.py
+          echo "flake8 ran successfully"
+          echo "Running nonstandardcode.py script"
+          python nonstandardcode.py
+          echo "Done"
