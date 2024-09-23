@@ -3,7 +3,7 @@ name: Trigger on PR Approval
 on: [push]
 
 jobs:
-  build:
+  job_build:
     name: Ex5 Miniforge for PyPy
     runs-on: "ubuntu-latest"
     defaults:
@@ -19,18 +19,47 @@ jobs:
           use-only-tar-bz2: true
       - name: Install Tree
         run: sudo apt-get install -y tree
-      - name: Display Tree structure
+      - name: Tree structure Before Packaging
         run: tree
-      - name: Check current directory
-        run: ls
-#       - run: |
-#           pwd
-#           echo "Setting up conda env"
-#           conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
-#           echo "activate conda env"
-#           conda activate mle-dev
-#           echo "conda env activated"
-#           echo "running flake8"
+      - name: Build the package
+        run: python -m build
+      - name: Tree structure After Packaging
+        run: tree
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: house-value-prediction-artifacts
+          path: dist/*
+  job_run:
+    name: Install And Deploy
+    runs-on: "ubuntu-latest"
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+          allow-softlinks: true
+          show-channel-urls: true
+          use-only-tar-bz2: true
+      - name: Conda Setup
+        run: |
+          echo "Setting up conda env"
+          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8 -y
+          echo "activate conda env"
+          conda activate mle-dev
+          echo "conda env activated"
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: house-value-prediction-artifacts
+          path: ./artifacts
+      - name: Install the package
+        run: |
+          ls
+          pip install .
 #           flake8 nonstandardcode.py
 #           echo "flake8 ran successfully"
 #           echo "Running nonstandardcode.py script"
