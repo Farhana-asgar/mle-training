@@ -22,7 +22,7 @@ jobs:
       - name: Display Tree structure
         run: tree
       - name: Check current directory
-#         run: ls
+        run: ls
 #       - run: |
 #           pwd
 #           echo "Setting up conda env"
