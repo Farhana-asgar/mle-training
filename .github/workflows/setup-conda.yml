@@ -63,12 +63,13 @@ jobs:
       - name: Install the package
         run: |
           cd artifacts
-          tree
           pip install house_value_prediction-0.1-py3-none-any.whl
       - name: Run nonstandardcode.py
         run: |
           pip list
-          python -m house_value_prediction.nonstandardcode
+          cd ..
+          cd src/house_value_prediction/nonstandardcode.py
+          python nonstandardcode.py
       - name: Run the script
         run: |
           tree

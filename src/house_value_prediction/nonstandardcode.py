@@ -1,7 +1,5 @@
 import numpy as np
 import pandas as pd
-from data_ingestion import fetch_housing_data
-from data_loading import income_cat_proportions, load_housing_data
 from scipy.stats import randint
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.impute import SimpleImputer
@@ -15,9 +13,11 @@ from sklearn.model_selection import (
 )
 from sklearn.tree import DecisionTreeRegressor
 
-fetch_housing_data()
+from house_value_prediction import data_ingestion, data_loading
 
-housing = load_housing_data()
+data_ingestion.fetch_housing_data()
+
+housing = data_loading.load_housing_data()
 
 train_set, test_set = train_test_split(housing, test_size=0.2, random_state=42)
 
@@ -32,9 +32,9 @@ for train_index, test_index in split.split(housing, housing["income_cat"]):
 train_set, test_set = train_test_split(housing, test_size=0.2, random_state=42)
 
 compare_props = pd.DataFrame({
-    "Overall": income_cat_proportions(housing),
-    "Stratified": income_cat_proportions(strat_test_set),
-    "Random": income_cat_proportions(test_set),
+    "Overall": data_loading.income_cat_proportions(housing),
+    "Stratified": data_loading.income_cat_proportions(strat_test_set),
+    "Random": data_loading.income_cat_proportions(test_set),
 }).sort_index()
 compare_props["Rand. %error"] = 100 * compare_props["Random"]   \
       / compare_props["Overall"] - 100
