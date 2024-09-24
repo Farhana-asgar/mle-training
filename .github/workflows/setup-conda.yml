@@ -5,8 +5,8 @@ on:
     types: [submitted]
 
 jobs:
-  example-5:
-    name: Ex5 Miniforge for PyPy
+  job_build:
+    name: Build and package
     runs-on: "ubuntu-latest"
     defaults:
       run:
@@ -19,15 +19,53 @@ jobs:
           allow-softlinks: true
           show-channel-urls: true
           use-only-tar-bz2: true
-      - run: |
+      - name: Install Tree
+        run: sudo apt-get install -y tree
+      - name: Tree structure Before Packaging
+        run: tree
+      - name: Build the package
+        run: |
+          pip install build
+          python -m build
+      - name: Tree structure After Packaging
+        run: tree
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: house_value_prediction_artifacts
+          path: dist/*
+  job_run:
+    name: Install And Deploy
+    runs-on: "ubuntu-latest"
+    needs: job_build
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+          allow-softlinks: true
+          show-channel-urls: true
+          use-only-tar-bz2: true
+      - name: Conda Setup
+        run: |
           echo "Setting up conda env"
           conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
           echo "activate conda env"
           conda activate mle-dev
           echo "conda env activated"
-          echo "running flake8"
-          flake8 nonstandardcode.py
-          echo "flake8 ran successfully"
-          echo "Running nonstandardcode.py script"
-          python nonstandardcode.py
-          echo "Done"
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: house_value_prediction_artifacts
+          path: ./artifacts
+      - name: Install the package
+        run: |
+          cd artifacts
+          pip install house_value_prediction-0.1-py3-none-any.whl
+      - name: Run nonstandardcode.py
+        run: |
+          cd ..
+          python -m house_value_prediction.nonstandardcode
