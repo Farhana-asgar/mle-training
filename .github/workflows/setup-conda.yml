@@ -54,7 +54,7 @@ jobs:
       - name: Conda Setup
         run: |
           echo "Setting up conda env"
-          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8 pytest
+          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
           echo "activate conda env"
           conda activate mle-dev
           echo "conda env activated"
@@ -69,5 +69,6 @@ jobs:
           pip install house_value_prediction-0.1-py3-none-any.whl
       - name: Run pytest
         run: |
+          conda install pytest
           cd tests
           pytest
