@@ -63,18 +63,14 @@ jobs:
         with:
           name: house_value_prediction_artifacts
           path: ./artifacts
-      - name: Install the package
+      - name: Install the package and run tests
         run: |
           cd artifacts
           pip install house_value_prediction-0.1-py3-none-any.whl
           cd ..
           pip install pytest
           pip install pytest-mock
-          pip list
+          echo "Running test"
           cd tests
           pytest
-      - name: Run pytest
-        run: |
-          conda install pytest
-          cd tests
-          pytest
+
