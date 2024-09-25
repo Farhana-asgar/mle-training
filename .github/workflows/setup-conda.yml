@@ -1,8 +1,10 @@
 name: Trigger on PR Approval
 
-on:
-  pull_request_review:
-    types: [submitted]
+# on:
+#   pull_request_review:
+#     types: [submitted]
+
+on: [push]
 
 jobs:
   job_build:
@@ -52,7 +54,7 @@ jobs:
       - name: Conda Setup
         run: |
           echo "Setting up conda env"
-          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
+          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8 pytest
           echo "activate conda env"
           conda activate mle-dev
           echo "conda env activated"
@@ -65,7 +67,8 @@ jobs:
         run: |
           cd artifacts
           pip install house_value_prediction-0.1-py3-none-any.whl
-      - name: Run nonstandardcode.py
+      - name: Run pytest
         run: |
           cd ..
-          python -m house_value_prediction.nonstandardcode
+          cd tests
+          pytest
