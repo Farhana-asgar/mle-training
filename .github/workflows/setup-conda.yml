@@ -72,5 +72,6 @@ jobs:
           cd ..
           pwd
           tree
+          ls
           cd tests
           pytest
