@@ -69,6 +69,7 @@ jobs:
           pip install house_value_prediction-0.1-py3-none-any.whl
           cd ..
           pip install pytest
+          pip install pytest-mock
           cd tests
           pytest
       - name: Run pytest
