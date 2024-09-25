@@ -70,6 +70,7 @@ jobs:
       - name: Run pytest
         run: |
           cd ..
+          pwd
           tree
           cd tests
           pytest
