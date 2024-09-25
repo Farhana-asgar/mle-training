@@ -58,6 +58,14 @@ jobs:
           echo "activate conda env"
           conda activate mle-dev
           echo "conda env activated"
+          cd artifacts
+          pip install house_value_prediction-0.1-py3-none-any.whl
+          cd ..
+          pip install pytest
+          pip install pytest-mock
+          pip list
+          cd tests
+          pytest
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
@@ -65,13 +73,7 @@ jobs:
           path: ./artifacts
       - name: Install the package
         run: |
-          cd artifacts
-          pip install house_value_prediction-0.1-py3-none-any.whl
-          cd ..
-          pip install pytest
-          pip install pytest-mock
-          cd tests
-          pytest
+          ls
       - name: Run pytest
         run: |
           conda install pytest
