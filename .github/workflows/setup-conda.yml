@@ -69,9 +69,5 @@ jobs:
           pip install house_value_prediction-0.1-py3-none-any.whl
       - name: Run pytest
         run: |
-          cd ..
-          pwd
-          tree
-          ls
           cd tests
           pytest
