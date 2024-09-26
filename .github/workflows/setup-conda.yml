@@ -1,6 +1,8 @@
 name: Trigger on PR Approval
 
 on:
+  pull_request:
+    types: [opened]
   pull_request_review:
     types: [submitted]
 
@@ -61,11 +63,14 @@ jobs:
         with:
           name: house_value_prediction_artifacts
           path: ./artifacts
-      - name: Install the package
+      - name: Install the package and run tests
         run: |
           cd artifacts
           pip install house_value_prediction-0.1-py3-none-any.whl
-      - name: Run nonstandardcode.py
-        run: |
           cd ..
-          python -m house_value_prediction.nonstandardcode
+          pip install pytest
+          pip install pytest-mock
+          echo "Running test"
+          cd tests
+          pytest
+
