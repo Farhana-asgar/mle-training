@@ -3,6 +3,8 @@ name: Trigger on PR Approval
 on:
   pull_request:
     types: [opened]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
   job_build:
