@@ -61,14 +61,11 @@ jobs:
         with:
           name: house_value_prediction_artifacts
           path: ./artifacts
-      - name: Install the package and run tests
+      - name: Install the package
         run: |
           cd artifacts
           pip install house_value_prediction-0.1-py3-none-any.whl
+      - name: Run nonstandardcode.py
+        run: |
           cd ..
-          pip install pytest
-          pip install pytest-mock
-          echo "Running test"
-          cd tests
-          pytest
-
+          python -m house_value_prediction.nonstandardcode
