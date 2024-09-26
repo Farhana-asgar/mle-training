@@ -5,7 +5,10 @@ from six.moves import urllib
 
 DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml/master/"
 HOUSING_URL = DOWNLOAD_ROOT + "datasets/housing/housing.tgz"
-HOUSING_PATH = os.path.join("datasets", "housing")
+BASE_PATH = os.path.dirname(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__))))
+
+HOUSING_PATH = os.path.join(BASE_PATH, "datasets", "housing")
 
 
 def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
