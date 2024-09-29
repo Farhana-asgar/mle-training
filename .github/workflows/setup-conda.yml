@@ -68,7 +68,7 @@ jobs:
       - name: Install the package and run tests
         run: |
           cd artifacts
-          pip install house_value_prediction-0.1-py3-none-any.whl
+          pip install house_value_prediction-0.0.1-py3-none-any.whl
           cd ..
           pip install pytest
           pip install pytest-mock
