@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "house_value_prediction"
-version = "0.1"
+version = "0.0.1"
 description = "A package for house value prediction"
 authors = [
     { name = "Farhana Mohamed Asgar", email = "farhana.asgar@tigeranalytics.com" }
