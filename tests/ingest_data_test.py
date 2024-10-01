@@ -110,8 +110,6 @@ def test_prepare_dataset():
     })
     train_set, strat_train_set, strat_test_set = \
         ingest_data.prepare_dataset(housing)
-    print("start")
-    print(strat_test_set)
 
     # Assert the shape of the returned datasets
     assert train_set.shape[0] == 20  # 80% of 6
@@ -120,9 +118,7 @@ def test_prepare_dataset():
     # Check the income_cat column
     assert 'income_cat' not in train_set.columns
     assert 'income_cat' not in strat_test_set.columns
-    print("strat")
 
-    print(strat_train_set)
 
     # Check if the function returns a DataFrame
     assert isinstance(train_set, pd.DataFrame)
