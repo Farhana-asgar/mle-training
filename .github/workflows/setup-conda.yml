@@ -28,6 +28,10 @@ jobs:
           echo "activate conda env"
           conda activate mle-dev
           echo "conda env activated"
+      - name: Install Tree
+        run: sudo apt-get install -y tree
+      - name: Tree structure After Packaging
+        run: tree
       - name: Install the package in dev mode
         run: |
           python -m pip install --upgrade pip setuptools
