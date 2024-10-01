@@ -30,6 +30,8 @@ jobs:
           echo "conda env activated"
       - name: Install the package in dev mode
         run: |
+          python -m pip install --upgrade pip setuptools
+          pip cache purge
           pip install -e .
           pip install pytest
           pip install pytest-mock
