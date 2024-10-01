@@ -41,6 +41,7 @@ jobs:
           pip install pytest
           pip install pytest-mock
           cd tests
+          find / -name housing_labels.csv
           pytest -s ingest_data_test.py train_test.py score_test.py
       - name: Install Tree
         run: sudo apt-get install -y tree
