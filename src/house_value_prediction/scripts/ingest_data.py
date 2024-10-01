@@ -12,8 +12,7 @@ from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
 DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml/master/"
 HOUSING_URL = DOWNLOAD_ROOT + "datasets/housing/housing.tgz"
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.dirname(
-    os.path.abspath(__file__))))
-
+    os.path.dirname(os.path.abspath(__file__)))))
 HOUSING_PATH = os.path.join(BASE_PATH, "datasets", "housing")
 
 
@@ -109,13 +108,18 @@ def fill_missing_values(housing):
     return housing_prepared, imputer
 
 
-def main():
+def read_input():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--dataset_location', type=str,
                         help='Dataset location')
 
     args = parser.parse_args()
+
+    return args.dataset_location
+
+
+def main(dataset_location):
 
     fetch_housing_data()
 
@@ -129,20 +133,21 @@ def main():
 
     housing_prepared, imputer = fill_missing_values(housing)
 
-    housing_prepared.to_csv(args.dataset_location+'/housing_prepared.csv',
+    housing_prepared.to_csv(dataset_location+'/housing_prepared.csv',
                             index=False)
 
-    strat_test_set.to_csv(args.dataset_location+'/strat_test_set.csv',
+    strat_test_set.to_csv(dataset_location+'/strat_test_set.csv',
                           index=False)
 
-    housing_labels.to_csv(args.dataset_location+'/housing_labels.csv',
+    housing_labels.to_csv(dataset_location+'/housing_labels.csv',
                           index=False)
 
-    with open(args.dataset_location+'/imputer.pkl', 'wb') as file:
+    with open(dataset_location+'/imputer.pkl', 'wb') as file:
         pickle.dump(imputer, file)
 
     print("Training Data saved")
 
 
 if __name__ == "__main__":
-    main()
+    dataset_location = read_input()
+    main(dataset_location)
