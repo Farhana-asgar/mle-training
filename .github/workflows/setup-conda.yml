@@ -1,10 +1,10 @@
 name: Trigger on PR Approval
 
-on: [push]
-#   pull_request:
-#     types: [opened]
-#   pull_request_review:
-#     types: [submitted]
+#on: [push]
+  pull_request:
+    types: [opened]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
   unit_test_job:

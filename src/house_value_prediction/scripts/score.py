@@ -57,7 +57,6 @@ def random_forest_scoring(model_location, dataset_location):
 
 
 def main(model_location, dataset_location):
-    print("latest changes")
 
     lin_reg_scoring(model_location)
 
