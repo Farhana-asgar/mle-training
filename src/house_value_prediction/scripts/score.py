@@ -26,7 +26,7 @@ def lin_reg_scoring(model_location):
 
 def dec_tree_scoring(model_location):
     # Scoring for Decesion Tree implementation
-    with open(model_location+'/lin_reg.pkl', 'rb') as file:
+    with open(model_location+'/dec_tree.pkl', 'rb') as file:
         dec_tree_model = pickle.load(file)
 
     housing_predictions = dec_tree_model.predict(housing_prepared)
@@ -40,7 +40,7 @@ def dec_tree_scoring(model_location):
 
 def random_forest_scoring(model_location, dataset_location):
     # Scoring for Random Forest implementation
-    with open(model_location+'/lin_reg.pkl', 'rb') as file:
+    with open(model_location+'/random_forest.pkl', 'rb') as file:
         random_forest_model = pickle.load(file)
     y_test_df = pd.read_csv(model_location+'/y_test.csv')
     y_test = y_test_df["median_house_value"]
