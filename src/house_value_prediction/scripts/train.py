@@ -1,3 +1,6 @@
+import argparse
+import pickle
+
 import numpy as np
 import pandas as pd
 from scipy.stats import randint
@@ -13,19 +16,21 @@ def lin_reg(housing_prepared, housing_labels):
     lin_reg = LinearRegression()
     lin_reg.fit(housing_prepared, housing_labels)
 
-    housing_predictions = lin_reg.predict(housing_prepared)
-    return housing_predictions
+    # housing_predictions = lin_reg.predict(housing_prepared)
+    # return housing_predictions
+    return lin_reg
 
 
 def dec_tree(housing_prepared, housing_labels):
     # Decision Tree model implementation
     tree_reg = DecisionTreeRegressor(random_state=42)
     tree_reg.fit(housing_prepared, housing_labels)
-    housing_predictions = tree_reg.predict(housing_prepared)
-    return housing_predictions
+    # housing_predictions = tree_reg.predict(housing_prepared)
+    # return housing_predictions
+    return tree_reg
 
 
-def random_forest(housing_prepared, housing_labels, strat_test_set, imputer):
+def random_forest(housing_prepared, housing_labels, strat_test_set, imputer, dataset_location):
     # Random Forest model implementation
     param_distribs = {
         "n_estimators": randint(low=1, high=200),
@@ -88,7 +93,63 @@ def random_forest(housing_prepared, housing_labels, strat_test_set, imputer):
     X_test_prepared = X_test_prepared.join(pd.get_dummies
                                            (X_test_cat, drop_first=True))
 
-    X_test_prepared = X_test_prepared.drop("ocean_proximity", axis=1)
-    final_predictions = final_model.predict(X_test_prepared)
+    X_test_prepared.to_csv(dataset_location+'/X_test_prepared.csv',index=False)
+    # final_predictions = final_model.predict(X_test_prepared)
 
-    return y_test, final_predictions
+    # return y_test, final_predictions
+
+    return y_test, final_model
+
+
+def main():
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--dataset_location', type=str,
+                        help='Dataset location')
+
+    parser.add_argument('--model_location', type=str, help='Model location')
+
+    args = parser.parse_args()
+
+    housing_prepared = pd.read_csv(args.dataset_location +
+                                   '/housing_prepared.csv')
+
+    housing_labels_df = pd.read_csv(args.dataset_location +
+                                    '/housing_labels.csv')
+
+    housing_labels = housing_labels_df['median_house_value']
+
+    with open(args.dataset_location+'/imputer.pkl', 'rb') as file:
+        imputer = pickle.load(file)
+
+    strat_test_set = pd.read_csv(args.dataset_location+'/strat_test_set.csv')
+
+    lin_reg_model = lin_reg(housing_prepared, housing_labels)
+
+    print("Obtained Linear Regression Model")
+
+    dec_tree_model = dec_tree(housing_prepared, housing_labels)
+
+    print("Obtianed Decision Tree Model")
+
+    y_test, random_forest_model = random_forest(housing_prepared,
+                                                housing_labels, strat_test_set,
+                                                imputer, args.dataset_location)
+
+    print("Obtained Random Forest Model")
+
+    with open(args.model_location + '/lin_reg.pkl', 'wb') as file:
+        pickle.dump(lin_reg_model, file)
+    with open(args.model_location + '/dec_tree.pkl', 'wb') as file:
+        pickle.dump(dec_tree_model, file)
+    with open(args.model_location + '/random_forest.pkl', 'wb') as file:
+        pickle.dump(random_forest_model, file)
+
+    y_test.to_csv(args.model_location+'/y_test.csv', index=False)
+
+    print("All models saved")
+
+
+if __name__ == "__main__":
+    main()
