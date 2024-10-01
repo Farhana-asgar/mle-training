@@ -24,7 +24,7 @@ jobs:
       - name: Conda Setup
         run: |
           echo "Setting up conda env"
-          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
+          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8 fsspec
           echo "activate conda env"
           conda activate mle-dev
           echo "conda env activated"
