@@ -126,6 +126,6 @@ jobs:
           python -m house_value_prediction.scripts.score -h
       - name: Running Scripts without -h
         run: |
-          python -m house_value_prediction.scripts.ingest_data --location F:\Training\GIT\mle-training\src\house_value_prediction\scripts_output\ingest_data
-          python -m house_value_prediction.scripts.train --dataset_location F:\Training\GIT\mle-training\src\house_value_prediction\scripts_output\ingest_data --model_location F:\Training\GIT\mle-training\src\house_value_prediction\scripts_output\train
-          python -m house_value_prediction.scripts.score --dataset_location F:\Training\GIT\mle-training\src\house_value_prediction\scripts_output\ingest_data --model_location F:\Training\GIT\mle-training\src\house_value_prediction\scripts_output\train
+          python -m house_value_prediction.scripts.ingest_data --dataset_location /home/runner/work/mle-training/mle-training/src/house_value_prediction/scripts_output/ingest_data
+          python -m house_value_prediction.scripts.train --dataset_location /home/runner/work/mle-training/mle-training/src/house_value_prediction/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/src/house_value_prediction/scripts_output/train
+          python -m house_value_prediction.scripts.score --dataset_location /home/runner/work/mle-training/mle-training/src/house_value_prediction/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/src/house_value_prediction/scripts_output/train
