@@ -1,6 +1,6 @@
 name: Trigger on PR Approval
 
-on': [push]
+on: [push]
 #   pull_request:
 #     types: [opened]
 #   pull_request_review:
