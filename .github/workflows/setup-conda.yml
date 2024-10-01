@@ -80,6 +80,7 @@ jobs:
           pip install pytest
           pip install pytest-mock
           echo "Running test"
+          cd ..
           cd tests
           pytest installation_test.py
       - name: Upload build artifacts
