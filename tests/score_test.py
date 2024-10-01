@@ -6,9 +6,9 @@ from house_value_prediction.scripts import score
 
 @pytest.fixture
 def sample_data():
-    dataset_location = "/home/runner/work/mle-training/src/house_value_prediction/scripts_output/ingest_data"
+    dataset_location = "/home/runner/work/mle-training/mle-training/src/house_value_prediction/scripts_output/ingest_data"
     score.global_variable_initialization(dataset_location)
-    model_location = "./home/runner/work/mle-training/src/house_value_prediction/scripts_output/train"
+    model_location = "./home/runner/work/mle-training/mle-training/src/house_value_prediction/scripts_output/train"
     return dataset_location, model_location
 
 
