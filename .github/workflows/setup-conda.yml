@@ -118,11 +118,11 @@ jobs:
       - name: Running Scripts using -h
         run: |
           cd scripts
-          python -m ingest_data_script -h
-          python -m train_script -h
-          python -m score_script -h
+          python ingest_data_script -h
+          python train_script -h
+          python score_script -h
       - name: Running Scripts without -h
         run: |
-          python -m ingest_data_script --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data
-          python -m train_script --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train
-          python -m score_script --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train
+          python ingest_data_script --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data
+          python train_script --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train
+          python score_script --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train
