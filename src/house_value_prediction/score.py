@@ -1,4 +1,3 @@
-import argparse
 import pickle
 
 import numpy as np
@@ -56,15 +55,6 @@ def random_forest_scoring(model_location, dataset_location):
     return final_mse, final_rmse
 
 
-def main(model_location, dataset_location):
-
-    lin_reg_scoring(model_location)
-
-    dec_tree_scoring(model_location)
-
-    random_forest_scoring(model_location, dataset_location)
-
-
 def global_variable_initialization(dataset_location):
 
     global housing_prepared
@@ -75,19 +65,3 @@ def global_variable_initialization(dataset_location):
     housing_labels_df = pd.read_csv(dataset_location +
                                     '/housing_labels.csv')
     housing_labels = housing_labels_df["median_house_value"]
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument('--dataset_location', type=str,
-                        help='Dataset location')
-
-    parser.add_argument('--model_location', type=str,
-                        help='Model location')
-
-    args = parser.parse_args()
-
-    global_variable_initialization(args.dataset_location)
-
-    main(args.model_location, args.dataset_location)

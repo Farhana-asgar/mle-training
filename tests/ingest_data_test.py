@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from house_value_prediction.scripts import ingest_data
+from house_value_prediction import ingest_data
 
 # Constants for testing
 MOCK_HOUSING_URL = "http://mock.url/housing.tgz"
@@ -118,7 +118,6 @@ def test_prepare_dataset():
     # Check the income_cat column
     assert 'income_cat' not in train_set.columns
     assert 'income_cat' not in strat_test_set.columns
-
 
     # Check if the function returns a DataFrame
     assert isinstance(train_set, pd.DataFrame)
