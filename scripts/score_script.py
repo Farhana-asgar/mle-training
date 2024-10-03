@@ -31,5 +31,3 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main(args.model_location, args.dataset_location)
-
-    args = parser.parse_args()    args = parser.parse_args()
