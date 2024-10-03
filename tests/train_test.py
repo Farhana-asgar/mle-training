@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 import sklearn
 
-from house_value_prediction.scripts import train
+from house_value_prediction import train
 
 
 @pytest.fixture

@@ -1,14 +1,18 @@
 
 import pytest
 
-from house_value_prediction.scripts import score
+from house_value_prediction import score
 
 
 @pytest.fixture
 def sample_data():
-    dataset_location = "/home/runner/work/mle-training/mle-training/src/house_value_prediction/scripts_output/ingest_data"
+    dataset_location = "/home/runner/work/mle-training/mle-training/scripts_output/ingest_data"
+    # dataset_location = "F:/Training/GIT/mle-training/scripts_output/ingest_data"
+    model_location = "/home/runner/work/mle-training/mle-training/scripts_output/train"
+    # model_location = "F:/Training/GIT/mle-training/scripts_output/train"
+
     score.global_variable_initialization(dataset_location)
-    model_location = "/home/runner/work/mle-training/mle-training/src/house_value_prediction/scripts_output/train"
+
     return dataset_location, model_location
 
 
