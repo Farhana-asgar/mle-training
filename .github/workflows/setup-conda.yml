@@ -118,9 +118,9 @@ jobs:
       - name: Running Scripts using -h
         run: |
           cd scripts
-          python -m ingest_data -h
-          python -m train -h
-          python -m score -h
+          python -m ingest_data_script -h
+          python -m train_script -h
+          python -m score_script -h
       - name: Running Scripts without -h
         run: |
           python -m ingest_data_script --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data
