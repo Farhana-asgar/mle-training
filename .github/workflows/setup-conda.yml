@@ -123,6 +123,6 @@ jobs:
           python -m score -h
       - name: Running Scripts without -h
         run: |
-          python -m ingest_data --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data
-          python -m train --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train
-          python -m score --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train
+          python -m ingest_data_script --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data
+          python -m train_script --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train
+          python -m score_script --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train
