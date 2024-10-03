@@ -2,12 +2,15 @@ import argparse
 
 from house_value_prediction.score import (
     dec_tree_scoring,
+    global_variable_initialization,
     lin_reg_scoring,
     random_forest_scoring,
 )
 
 
 def main(model_location, dataset_location):
+
+    global_variable_initialization(dataset_location)
 
     lin_reg_scoring(model_location)
 
@@ -29,4 +32,4 @@ if __name__ == "__main__":
 
     main(args.model_location, args.dataset_location)
 
-    args = parser.parse_args()
+    args = parser.parse_args()    args = parser.parse_args()
