@@ -1,6 +1,7 @@
 name: Trigger on PR Approval
 
 on: [push]
+
 # on:
 #   pull_request:
 #     types: [opened]
@@ -115,16 +116,10 @@ jobs:
         run: |
           cd artifacts
           pip install house_value_prediction-0.0.1-py3-none-any.whl
-      - name: Running Scripts using -h
+      - name: Running Scripts
         run: |
           cd scripts
-          pip install logging-tree
-          python ingest_data_script.py -h
-          python train_script.py -h
-          python score_script.py -h
-      - name: Running Scripts without -h
-        run: |
-          cd scripts
-          python ingest_data_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data
-          python train_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train
-          python score_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train
+          pip install logging_tree
+          python ingest_data_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --log-level DEBUG  --log-path  ingest_data_script_logs.txt
+          python train_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train --log-path  train_script_logs.txt
+          python score_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train --log-path  score_script_logs.txt

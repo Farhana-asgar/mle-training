@@ -1,3 +1,5 @@
+import logging
+
 import numpy as np
 import pandas as pd
 from scipy.stats import randint
@@ -5,6 +7,8 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.tree import DecisionTreeRegressor
+
+logger = logging.getLogger(__name__)
 
 
 def lin_reg(housing_prepared, housing_labels):
@@ -15,6 +19,7 @@ def lin_reg(housing_prepared, housing_labels):
 
     # housing_predictions = lin_reg.predict(housing_prepared)
     # return housing_predictions
+    logger.info("Linear Regression Model Ready")
     return lin_reg
 
 
@@ -24,6 +29,7 @@ def dec_tree(housing_prepared, housing_labels):
     tree_reg.fit(housing_prepared, housing_labels)
     # housing_predictions = tree_reg.predict(housing_prepared)
     # return housing_predictions
+    logger.info("Decision Tree Model Ready")
     return tree_reg
 
 
@@ -96,5 +102,8 @@ def random_forest(housing_prepared, housing_labels, strat_test_set, imputer,
     # final_predictions = final_model.predict(X_test_prepared)
 
     # return y_test, final_predictions
+    logger.info("Random Forest Model Ready")
 
+    return y_test, final_model
+    return y_test, final_model
     return y_test, final_model
