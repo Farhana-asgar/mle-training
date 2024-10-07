@@ -1,4 +1,5 @@
 
+import logging
 import os
 import tarfile
 
@@ -13,6 +14,7 @@ HOUSING_URL = DOWNLOAD_ROOT + "datasets/housing/housing.tgz"
 BASE_PATH = os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__))))
 HOUSING_PATH = os.path.join(BASE_PATH, "datasets", "housing")
+logger = logging.getLogger(__name__)
 
 
 def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
@@ -22,12 +24,14 @@ def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
     urllib.request.urlretrieve(housing_url, tgz_path)
     housing_tgz = tarfile.open(tgz_path)
     housing_tgz.extractall(path=housing_path)
+    logger.info(f"Read and downloaded the data from {housing_url}")
     housing_tgz.close()
 
 
 def load_housing_data(housing_path=HOUSING_PATH):
     # This function is to load the dataset housing.tgz
     csv_path = os.path.join(housing_path, "housing.csv")
+    logger.info("Housing data loaded")
     return pd.read_csv(csv_path)
 
 
@@ -69,6 +73,7 @@ def prepare_dataset(housing):
 
     # corr_matrix = housing.corr()
     # corr_matrix["median_house_value"].sort_values(ascending=False)
+    logging.info("Preparation of dataset Done")
 
     return housing, strat_train_set, strat_test_set
 
@@ -78,6 +83,7 @@ def feature_engineering(housing, strat_train_set):
     housing = strat_train_set.drop("median_house_value", axis=1)
     # drop labels for training set
     housing_labels = strat_train_set["median_house_value"].copy()
+    logging.info("Feature Engineering performed")
     return housing, housing_labels
 
 
@@ -104,4 +110,5 @@ def fill_missing_values(housing):
     housing_prepared = housing_tr.join(pd.get_dummies(
         housing_cat, drop_first=True))
 
+    logging.info("Missing values are filled and new attributes are derived")
     return housing_prepared, imputer
