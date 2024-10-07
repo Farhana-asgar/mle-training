@@ -118,6 +118,7 @@ jobs:
       - name: Running Scripts using -h
         run: |
           cd scripts
+          pip install logging-tree
           python ingest_data_script.py -h
           python train_script.py -h
           python score_script.py -h
