@@ -118,6 +118,7 @@ jobs:
       - name: Running Scripts
         run: |
           cd scripts
+          pip install logging_tree
           python ingest_data_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --log-level DEBUG  --log-path  ingest_data_script_logs.txt
           python train_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train --log-path  train_script_logs.txt
           python score_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train --log-path  score_script_logs.txt
