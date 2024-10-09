@@ -138,12 +138,11 @@ jobs:
           use-only-tar-bz2: true
       - name: Conda Setup
         run: |
-          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8 tree
-          conda activate mle-dev
-
+          conda create --name mle-dev tree
+          conda activate mle-de
+          conda install -c conda-forge sphinx sphinx-rtd-theme
           pip install sphinx
           pip install sphinx-rtd-theme
-          pip install sphinx-build
       - name: Tree structure before building docs
         run: tree
       - name: Building docs using sphinx
