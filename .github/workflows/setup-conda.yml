@@ -138,7 +138,7 @@ jobs:
           use-only-tar-bz2: true
       - name: Conda Setup
         run: |
-          conda create --name mle-dev tree
+          conda create --name mle-dev python=3.9 tree
           conda activate mle-de
           conda install -c conda-forge sphinx sphinx-rtd-theme
           pip install sphinx
