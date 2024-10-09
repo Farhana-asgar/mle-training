@@ -139,7 +139,7 @@ jobs:
       - name: Conda Setup
         run: |
           conda create --name mle-dev python=3.9 tree
-          conda activate mle-de
+          conda activate mle-dev
           conda install -c conda-forge sphinx sphinx-rtd-theme
           pip install sphinx
           pip install sphinx-rtd-theme
