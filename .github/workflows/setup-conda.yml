@@ -49,7 +49,6 @@ jobs:
       run:
         shell: bash -el {0}
     name: Build Job
-    needs: unit_test_job
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -123,3 +122,37 @@ jobs:
           python ingest_data_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --log-level DEBUG  --log-path  ingest_data_script_logs.txt
           python train_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train --log-path  train_script_logs.txt
           python score_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train --log-path  score_script_logs.txt
+  docs_build_job:
+    defaults:
+      run:
+        shell: bash -el {0}
+    name: Docs Build Job
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          allow-softlinks: true
+          installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+          show-channel-urls: true
+          use-only-tar-bz2: true
+      - name: Conda Setup
+        run: |
+          echo "Setting up conda env"
+          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8 tree sphinx sphinx-rtd-theme
+          echo "activate conda env"
+          conda activate mle-dev
+          echo "conda env activated"
+      - name: Tree structure before building docs
+        run: tree
+      - name: Building docs using sphinx
+        run: |
+          cd docs
+          make html
+      - name: Tree structure after building docs
+        run: tree
+      - name: Upload build docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs_artifacts
+          path: cd docs/build/html
