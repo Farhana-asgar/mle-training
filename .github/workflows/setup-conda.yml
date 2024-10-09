@@ -146,6 +146,14 @@ jobs:
         run: |
           pip install sphinx==7.3.7
           pip install sphinx-rtd-theme==3.0.0
+          sphinx-rtd-theme==3.0.0
+          pip install sphinxcontrib-applehelp==1.0.2
+          pip install sphinxcontrib-devhelp==1.0.2
+          pip install sphinxcontrib-htmlhelp==2.0.0
+          pip install sphinxcontrib-jquery==4.1
+          pip install sphinxcontrib-jsmath==1.0.1
+          pip install sphinxcontrib-qthelp==1.0.3
+          pip install sphinxcontrib-serializinghtml==1.1.10
           cd docs
           make html
       - name: Tree structure after building docs
