@@ -147,7 +147,7 @@ jobs:
           pip install sphinx
           pip install sphinx-rtd-theme
           cd docs
-          cat .\source\conf.py
+          cat .\source\\conf.py
           make html
       - name: Tree structure after building docs
         run: tree
