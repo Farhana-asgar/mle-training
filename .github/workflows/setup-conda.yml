@@ -141,8 +141,8 @@ jobs:
           conda create --name mle-dev python=3.9 tree
           conda activate mle-dev
           conda update conda
-          conda install -c conda-forge sphinx
-          conda install -c conda-forge sphinx-rtd-theme
+          conda install sphinx
+          conda install sphinx-rtd-theme
 
           pip install sphinx
           pip install sphinx-rtd-theme
