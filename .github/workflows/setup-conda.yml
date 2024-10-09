@@ -146,6 +146,7 @@ jobs:
         run: tree
       - name: Building docs using sphinx
         run: |
+          conda list
           cd docs
           make html
       - name: Tree structure after building docs
