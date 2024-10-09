@@ -140,9 +140,9 @@ jobs:
         run: |
           conda create --name mle-dev python=3.9 tree
           conda activate mle-dev
+          conda config --add channels conda-forge
           conda install sphinx
           conda install sphinx-rtd-theme
-
           pip install sphinx
           pip install sphinx-rtd-theme
       - name: Tree structure before building docs
