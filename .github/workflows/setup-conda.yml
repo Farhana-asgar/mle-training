@@ -144,13 +144,10 @@ jobs:
         run: tree
       - name: Building docs using sphinx
         run: |
-          conda config --add channels conda-forge
-          conda install sphinx
-          conda install sphinx-rtd-theme
           pip install sphinx
           pip install sphinx-rtd-theme
-          conda list
           cd docs
+          cat .\source\conf.py
           make html
       - name: Tree structure after building docs
         run: tree
