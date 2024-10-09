@@ -144,8 +144,8 @@ jobs:
         run: tree
       - name: Building docs using sphinx
         run: |
-          pip install sphinx
-          pip install sphinx-rtd-theme
+          pip install sphinx==7.3.7
+          pip install sphinx-rtd-theme==3.0.0
           cd docs
           make html
       - name: Tree structure after building docs
