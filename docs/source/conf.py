@@ -19,8 +19,7 @@ release = '0.0.1'
 
 
 templates_path = ['_templates']
-exclude_patterns = []
-
+exclude_patterns = ['modules.rst', 'modules.html','index.html']
 extensions = [
     'sphinx.ext.autodoc',   # This extension enables the autodoc directive
     'sphinx.ext.napoleon',  # Optional: If you're using Google or NumPy style docstrings
