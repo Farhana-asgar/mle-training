@@ -2,6 +2,6 @@ house_value_prediction
 ======================
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 6
 
    house_value_prediction
