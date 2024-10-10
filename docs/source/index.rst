@@ -7,7 +7,7 @@ Welcome to house_value_prediction's documentation!
 ==================================================
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
    :caption: Contents:
 
    modules
