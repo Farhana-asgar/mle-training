@@ -112,7 +112,6 @@ def main():
     y_test, random_forest_model = random_forest(housing_prepared,
                                                 housing_labels, strat_test_set,
                                                 imputer, args.dataset_location)
-
     print("Obtained Random Forest Model")
 
     with open(args.model_location + '/lin_reg.pkl', 'wb') as file:

@@ -12,6 +12,17 @@ logger = logging.getLogger(__name__)
 
 
 def lin_reg(housing_prepared, housing_labels):
+    """
+    Develops Linear Regression Model
+
+    Args:
+        housing_prepared (Dataframe): The training data
+        housing_labels (Series): The label data
+
+    Returns:
+        lin_reg (sklearn.linear_model._base.LinearRegression): \
+            The Linear Regression Model
+    """
     # Linear Regression model implementation
 
     lin_reg = LinearRegression()
@@ -24,6 +35,17 @@ def lin_reg(housing_prepared, housing_labels):
 
 
 def dec_tree(housing_prepared, housing_labels):
+    """
+    Develops Decision Tree  Model
+
+    Args:
+        housing_prepared (Dataframe): The training data
+        housing_labels (Series): The label data
+
+    Returns:
+        tree_reg (sklearn.tree._classes.DecisionTreeRegressor): \
+            The Decision Tree Model
+    """
     # Decision Tree model implementation
     tree_reg = DecisionTreeRegressor(random_state=42)
     tree_reg.fit(housing_prepared, housing_labels)
@@ -35,6 +57,21 @@ def dec_tree(housing_prepared, housing_labels):
 
 def random_forest(housing_prepared, housing_labels, strat_test_set, imputer,
                   dataset_location):
+    """
+    Develops Random Forest  Model
+
+    Args:
+        housing_prepared (Dataframe): The training data
+        housing_labels (Series): The label data
+        strat_test_set (Dataframe): Split from housing dataset for testing
+        imputer (SimpleImputer): The imputer function to deal with missing data
+        dataset_location (str): The location where the dataset is stored
+
+    Returns:
+        final_model (sklearn.tree._classes.DecisionTreeRegressor): \
+            The Decision Tree Model
+        y_test (Series): The label column value
+    """
     # Random Forest model implementation
     param_distribs = {
         "n_estimators": randint(low=1, high=200),
@@ -104,6 +141,4 @@ def random_forest(housing_prepared, housing_labels, strat_test_set, imputer,
     # return y_test, final_predictions
     logger.info("Random Forest Model Ready")
 
-    return y_test, final_model
-    return y_test, final_model
     return y_test, final_model
