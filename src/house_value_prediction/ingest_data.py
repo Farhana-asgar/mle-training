@@ -18,6 +18,20 @@ logger = logging.getLogger(__name__)
 
 
 def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
+    """
+    Downloads and extracts the housing dataset.
+
+    Args:
+        housing_url (str): URL of the housing dataset to download.
+        housing_path (str): \
+            Local directory path where the dataset should be stored.
+
+    Returns:
+        None: The function doesn't return a value, \
+            but it downloads and extracts the dataset.
+
+    """
+
     # This function is to extract and fetch the dataset housing.tgz
     os.makedirs(housing_path, exist_ok=True)
     tgz_path = os.path.join(housing_path, "housing.tgz")
@@ -29,6 +43,17 @@ def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
 
 
 def load_housing_data(housing_path=HOUSING_PATH):
+    """
+    Reads the housing dataset
+
+    Args:
+        housing_path (str): Local directory path where the dataset is stored
+
+    Returns:
+        Dataframe: The function returns the contents of the csv file
+
+    """
+
     # This function is to load the dataset housing.tgz
     csv_path = os.path.join(housing_path, "housing.csv")
     logger.info("Housing data loaded")
@@ -36,11 +61,31 @@ def load_housing_data(housing_path=HOUSING_PATH):
 
 
 def income_cat_proportions(data):
+    """
+    Downloads and extracts the housing dataset.
+
+    Args:
+        data (Dataframe): The data that is to be used in model creation.
+
+    Returns:
+        Series: Proportion of income
+    """
     # Returns proportion of income
     return (data["income_cat"].value_counts() / len(data))
 
 
 def prepare_dataset(housing):
+    """
+    Downloads and extracts the housing dataset.
+
+    Args:
+        housing (Dataframe): The data that is to be used in model creation.
+
+    Returns:
+        housing (Dataframe): Modified housing dataframe
+        strat_train_set (Dataframe): Split from housing dataset for training
+        strat_test_set (Dataframe): Split from housing dataset for testing
+    """
     # Prepare and split the dataset for training and testing purpose
     housing["income_cat"] = pd.cut(housing["median_income"],
                                    bins=[0., 1.5, 3.0, 4.5, 6., np.inf],
@@ -79,6 +124,18 @@ def prepare_dataset(housing):
 
 
 def feature_engineering(housing, strat_train_set):
+    """
+    Does feature engineering on the dataset
+
+    Args:
+        housing (Dataframe): The data that is to be used in model creation.
+        strat_train_set (Dataframe): The train dataset
+
+    Returns:
+        housing (Dataframe): The modified housing dataframe for model training
+        housing_labels (Series): The target labels data
+    """
+
     # Get features and labels from dataset
     housing = strat_train_set.drop("median_house_value", axis=1)
     # drop labels for training set
@@ -88,6 +145,17 @@ def feature_engineering(housing, strat_train_set):
 
 
 def fill_missing_values(housing):
+    """
+    Does feature engineering on the dataset
+
+    Args:
+        housing (Dataframe): The data that is to be used in model creation.
+
+    Returns:
+        housing_prepared (Dataframe): The modified housing_prepared\
+              dataframe for model training
+        imputer (SimpleImputer): The imputer function to deal with missing data
+    """
     # Fill out missing values and add new columns
 
     imputer = SimpleImputer(strategy="median")

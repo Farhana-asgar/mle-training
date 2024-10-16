@@ -9,6 +9,16 @@ logger = logging.getLogger(__name__)
 
 
 def lin_reg_scoring(model_location):
+    """
+    Scoring for Linear Regression implementation
+
+    Args:
+        model_location (str): The location where the model is stored
+
+    Returns:
+        lin_rmse (float): Root Mean Squared Error for Linear Regression
+        lin_mae (float): Mean Absolute Error for Linear Regression
+    """
     # Scoring for Linear Regression implementation
 
     with open(model_location+'/lin_reg.pkl', 'rb') as file:
@@ -30,7 +40,18 @@ def lin_reg_scoring(model_location):
 
 
 def dec_tree_scoring(model_location):
-    # Scoring for Decesion Tree implementation
+    """
+    Scoring for Decision Tree implementation
+
+    Args:
+        model_location (str): The location where the model is stored
+
+    Returns:
+        tree_mse (float): Mean Squared Error for Decision Tree
+        tree_rmse (float): Root Mean Squared Error for Decision Tree
+
+    """
+    # Scoring for Decision Tree implementation
     with open(model_location+'/dec_tree.pkl', 'rb') as file:
         dec_tree_model = pickle.load(file)
     logging.info("Decision Tree Model Saved")
@@ -47,6 +68,18 @@ def dec_tree_scoring(model_location):
 
 
 def random_forest_scoring(model_location, dataset_location):
+    """
+    Scoring for Random Forest implementation
+
+    Args:
+        model_location (str): The location where the model is stored
+        dataset_location (str): The location where the dataset is stored
+
+    Returns:
+        tree_mse (float): Mean Squared Error for Random Forest
+        tree_rmse (float): Root Mean Squared Error for Random Forest
+    """
+
     # Scoring for Random Forest implementation
     with open(model_location+'/random_forest.pkl', 'rb') as file:
         random_forest_model = pickle.load(file)
@@ -69,6 +102,15 @@ def random_forest_scoring(model_location, dataset_location):
 
 
 def global_variable_initialization(dataset_location):
+    """
+    Assigning global variables
+
+    Args:
+        dataset_location (str): The location where the dataset is stored
+
+    Returns:
+        None: The function does not return anything
+    """
 
     global housing_prepared
     global housing_labels

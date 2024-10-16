@@ -1,12 +1,12 @@
 name: Trigger on PR Approval
 
-on: [push]
+# on: [push]
 
-# on:
-#   pull_request:
-#     types: [opened]
-#   pull_request_review:
-#     types: [submitted]
+on:
+  pull_request:
+    types: [opened]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
   unit_test_job:
@@ -49,7 +49,6 @@ jobs:
       run:
         shell: bash -el {0}
     name: Build Job
-    needs: unit_test_job
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -123,3 +122,46 @@ jobs:
           python ingest_data_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --log-level DEBUG  --log-path  ingest_data_script_logs.txt
           python train_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train --log-path  train_script_logs.txt
           python score_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train --log-path  score_script_logs.txt
+  docs_build_job:
+    defaults:
+      run:
+        shell: bash -el {0}
+    name: Docs Build Job
+    runs-on: ubuntu-latest
+    needs: build_job
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          allow-softlinks: true
+          installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+          show-channel-urls: true
+          use-only-tar-bz2: true
+      - name: Conda Setup
+        run: |
+          conda create --name mle-dev python=3.9 tree
+          conda activate mle-dev
+      - name: Tree structure before building docs
+        run: tree
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: house_value_prediction_artifacts
+          path: ./artifacts
+      - name: Install the package
+        run: |
+          cd artifacts
+          pip install house_value_prediction-0.0.1-py3-none-any.whl
+      - name: Building docs using sphinx
+        run: |
+          pip install sphinx==7.3.7
+          pip install sphinx-rtd-theme==3.0.0
+          cd docs
+          make html
+      - name: Tree structure after building docs
+        run: tree
+      - name: Upload build docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs_artifacts
+          path: docs/*
