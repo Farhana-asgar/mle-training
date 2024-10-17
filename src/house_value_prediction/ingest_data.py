@@ -216,6 +216,9 @@ def fill_missing_values(housing):
         columns=col_names)
 
     housing_cat = housing[['ocean_proximity']]
+    print("printing")
+    housing_extra_attribs_df = housing_extra_attribs_df.reset_index(drop=True)
+    housing_cat = housing_cat.reset_index(drop=True)
     housing_prepared = housing_extra_attribs_df.join(pd.get_dummies(
         housing_cat, drop_first=False))
     print(housing_prepared.columns)

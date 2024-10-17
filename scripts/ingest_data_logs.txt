@@ -1,10 +1,10 @@
-2024-10-17 19:18:08 - root -                 INFO - main:101 - In ingest_data_script.py
-2024-10-17 19:18:08 - root -                 INFO - main:102 - ---Data Ingestion Starts---
-2024-10-17 19:18:08 - root -                 INFO - main:104 - Read the inputs - Dataset location  F:\Training\GIT\mle-training\scripts_output
-2024-10-17 19:18:10 - house_value_prediction.ingest_data -                 INFO - fetch_housing_data:71 - Read and downloaded the data from https://raw.githubusercontent.com/ageron/handson-ml/master/datasets/housing/housing.tgz
-2024-10-17 19:18:10 - house_value_prediction.ingest_data -                 INFO - load_housing_data:89 - Housing data loaded
-2024-10-17 19:18:11 - root -                 INFO - prepare_dataset:151 - Preparation of dataset Done
-2024-10-17 19:18:11 - root -                 INFO - prepare_dataset:151 - Preparation of dataset Done
-2024-10-17 19:18:11 - root -                 INFO - feature_engineering:173 - Feature Engineering performed
-2024-10-17 19:18:11 - root -                 INFO - fill_missing_values:223 - Missing values are filled and new attributes are derived
-2024-10-17 19:18:11 - root -                 INFO - main:130 - Training Data saved
+2024-10-17 19:36:03 - root -                 INFO - main:101 - In ingest_data_script.py
+2024-10-17 19:36:03 - root -                 INFO - main:102 - ---Data Ingestion Starts---
+2024-10-17 19:36:03 - root -                 INFO - main:104 - Read the inputs - Dataset location  F:\Training\GIT\mle-training\scripts_output\ingest_data
+2024-10-17 19:36:04 - house_value_prediction.ingest_data -                 INFO - fetch_housing_data:71 - Read and downloaded the data from https://raw.githubusercontent.com/ageron/handson-ml/master/datasets/housing/housing.tgz
+2024-10-17 19:36:04 - house_value_prediction.ingest_data -                 INFO - load_housing_data:89 - Housing data loaded
+2024-10-17 19:36:05 - root -                 INFO - prepare_dataset:151 - Preparation of dataset Done
+2024-10-17 19:36:05 - root -                 INFO - prepare_dataset:151 - Preparation of dataset Done
+2024-10-17 19:36:05 - root -                 INFO - feature_engineering:173 - Feature Engineering performed
+2024-10-17 19:36:05 - root -                 INFO - fill_missing_values:226 - Missing values are filled and new attributes are derived
+2024-10-17 19:36:06 - root -                 INFO - main:130 - Training Data saved
