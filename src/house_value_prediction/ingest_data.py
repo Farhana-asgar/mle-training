@@ -208,6 +208,7 @@ def fill_missing_values(housing):
     attr_adder = CombinedAttributesAdder(add_bedrooms_per_room=True)
     housing_extra_attribs, new_cols = attr_adder.transform(
         housing_tr.values)
+    print(col_names)
 
     col_names += new_cols
     housing_extra_attribs_df = pd.DataFrame(
@@ -216,7 +217,8 @@ def fill_missing_values(housing):
 
     housing_cat = housing[['ocean_proximity']]
     housing_prepared = housing_extra_attribs_df.join(pd.get_dummies(
-        housing_cat, drop_first=True))
+        housing_cat, drop_first=False))
+    print(housing_prepared.columns)
 
     logging.info("Missing values are filled and new attributes are derived")
     return housing_prepared, imputer
