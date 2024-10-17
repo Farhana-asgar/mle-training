@@ -205,7 +205,7 @@ def fill_missing_values(housing):
     # housing_tr["population_per_household"] = housing_tr["population"] \
     #     / housing_tr["households"]
 
-    attr_adder = CombinedAttributesAdder(add_bedrooms_per_room=False)
+    attr_adder = CombinedAttributesAdder(add_bedrooms_per_room=True)
     housing_extra_attribs, new_cols = attr_adder.transform(
         housing_tr.values)
 
