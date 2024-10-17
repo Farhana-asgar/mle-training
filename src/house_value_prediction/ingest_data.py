@@ -220,7 +220,7 @@ def fill_missing_values(housing):
     housing_extra_attribs_df = housing_extra_attribs_df.reset_index(drop=True)
     housing_cat = housing_cat.reset_index(drop=True)
     housing_prepared = housing_extra_attribs_df.join(pd.get_dummies(
-        housing_cat, drop_first=False))
+        housing_cat, drop_first=True))
     print(housing_prepared.columns)
 
     logging.info("Missing values are filled and new attributes are derived")
