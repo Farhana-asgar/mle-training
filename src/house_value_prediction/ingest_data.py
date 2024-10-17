@@ -6,8 +6,38 @@ import tarfile
 import numpy as np
 import pandas as pd
 from six.moves import urllib
+from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
+
+
+class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
+
+    def __init__(self, add_bedrooms_per_room=True):  # no *args or **kargs
+        self.add_bedrooms_per_room = add_bedrooms_per_room
+
+    def fit(self, X, y=None):
+        return self  # nothing else to do
+
+    def transform(self, X):
+
+        rooms_ix, bedrooms_ix, population_ix, households_ix = 3, 4, 5, 6
+        rooms_per_household = X[:, rooms_ix] / X[:, households_ix]
+        population_per_household = X[:, population_ix] / X[:, households_ix]
+        if self.add_bedrooms_per_room:
+            column_names = ["rooms_per_household",
+                            "population_per_household",
+                            "bedrooms_per_room"]
+            bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
+            return np.c_[X, rooms_per_household, population_per_household,
+                         bedrooms_per_room], column_names
+
+        else:
+            column_names = ["rooms_per_household",
+                            "population_per_household"]
+            return np.c_[X, rooms_per_household, population_per_household], \
+                column_names
+
 
 DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml/master/"
 HOUSING_URL = DOWNLOAD_ROOT + "datasets/housing/housing.tgz"
@@ -167,15 +197,25 @@ def fill_missing_values(housing):
 
     housing_tr = pd.DataFrame(X, columns=housing_num.columns,
                               index=housing.index)
-    housing_tr["rooms_per_household"] = housing_tr["total_rooms"] \
-        / housing_tr["households"]
-    housing_tr["bedrooms_per_room"] = housing_tr["total_bedrooms"] \
-        / housing_tr["total_rooms"]
-    housing_tr["population_per_household"] = housing_tr["population"] \
-        / housing_tr["households"]
+    col_names = list(housing_tr.columns)
+    # housing_tr["rooms_per_household"] = housing_tr["total_rooms"] \
+    #     / housing_tr["households"]
+    # housing_tr["bedrooms_per_room"] = housing_tr["total_bedrooms"] \
+    #     / housing_tr["total_rooms"]
+    # housing_tr["population_per_household"] = housing_tr["population"] \
+    #     / housing_tr["households"]
+
+    attr_adder = CombinedAttributesAdder(add_bedrooms_per_room=True)
+    housing_extra_attribs, new_cols = attr_adder.transform(
+        housing_tr.values)
+
+    col_names += new_cols
+    housing_extra_attribs_df = pd.DataFrame(
+        housing_extra_attribs,
+        columns=col_names)
 
     housing_cat = housing[['ocean_proximity']]
-    housing_prepared = housing_tr.join(pd.get_dummies(
+    housing_prepared = housing_extra_attribs_df.join(pd.get_dummies(
         housing_cat, drop_first=True))
 
     logging.info("Missing values are filled and new attributes are derived")
