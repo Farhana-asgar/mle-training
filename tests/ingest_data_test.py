@@ -156,12 +156,14 @@ def test_fill_missing_values():
         'longitude': with_nan,
         'latitude': np.random.rand(25),
         'ocean_proximity': np.random.rand(25),
+        'housing_median_age': np.random.rand(25),
         'total_rooms': np.random.rand(25),
         'total_bedrooms': with_nan,
         'population': np.random.rand(25),
         'households': np.random.rand(25)
     })
     housing_prepared, imputer = ingest_data.fill_missing_values(housing)
+    print(housing_prepared.columns)
     assert not housing_prepared['longitude'].isna().any()
     assert "rooms_per_household" in housing_prepared.columns
     assert "bedrooms_per_room" in housing_prepared.columns

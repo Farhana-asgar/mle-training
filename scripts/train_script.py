@@ -103,6 +103,8 @@ def main():
 
     lin_reg_model = lin_reg(housing_prepared, housing_labels)
 
+    print(housing_prepared)
+
     print("Obtained Linear Regression Model")
 
     dec_tree_model = dec_tree(housing_prepared, housing_labels)
