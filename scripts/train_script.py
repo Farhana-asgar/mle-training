@@ -100,7 +100,9 @@ def main():
 
     strat_test_set = pd.read_csv(args.dataset_location+'/strat_test_set.csv')
     logger.info("All the required training data are loaded")
-    print(housing_prepared)
+
+    nan_rows = housing_prepared[housing_prepared.isna().any(axis=1)]
+    print(nan_rows)
 
     lin_reg_model = lin_reg(housing_prepared, housing_labels)
 
