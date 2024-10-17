@@ -100,10 +100,9 @@ def main():
 
     strat_test_set = pd.read_csv(args.dataset_location+'/strat_test_set.csv')
     logger.info("All the required training data are loaded")
+    print(housing_prepared)
 
     lin_reg_model = lin_reg(housing_prepared, housing_labels)
-
-    print(housing_prepared)
 
     print("Obtained Linear Regression Model")
 
