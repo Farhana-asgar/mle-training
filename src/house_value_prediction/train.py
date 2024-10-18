@@ -172,7 +172,7 @@ def random_forest(housing_prepared, housing_labels, strat_test_set, imputer,
     #     X_test_prepared["population"] / X_test_prepared["households"]
     X_test_cat = X_test[['ocean_proximity']]
     X_test_prepared = X_test_prepared_df.join(pd.get_dummies
-                                              (X_test_cat, drop_first=True))
+                                              (X_test_cat, drop_first=False))
 
     X_test_prepared.to_csv(dataset_location+'/X_test_prepared.csv',
                            index=False)

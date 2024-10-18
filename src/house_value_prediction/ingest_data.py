@@ -203,27 +203,15 @@ def fill_missing_values(housing):
     #     / housing_tr["total_rooms"]
     # housing_tr["population_per_household"] = housing_tr["population"] \
     #     / housing_tr["households"]
-    print(housing_tr.columns)
 
     attr_adder = CombinedAttributesAdder()
     housing_extra_attribs = attr_adder.transform(
          housing_tr)
-    # print(col_names)
-
-    # print(housing_extra_attribs)
-    # print(new_cols)
-
-    # col_names += new_cols
-    # housing_extra_attribs_df = pd.DataFrame(
-    #     housing_extra_attribs,
-    #     columns=col_names)
 
     housing_cat = housing[['ocean_proximity']]
-    print("printing")
 
     housing_prepared = housing_extra_attribs.join(pd.get_dummies(
         housing_cat, drop_first=False))
-    print(housing_prepared.columns)
 
     logging.info("Missing values are filled and new attributes are derived")
     return housing_prepared, imputer
