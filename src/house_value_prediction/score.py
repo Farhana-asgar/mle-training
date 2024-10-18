@@ -24,6 +24,7 @@ def lin_reg_scoring(model_location):
     with open(model_location+'/lin_reg.pkl', 'rb') as file:
         lin_reg_model = pickle.load(file)
     logging.info("Linear Regression Model Saved")
+    print(housing_prepared.columns)
 
     housing_predictions = lin_reg_model.predict(housing_prepared)
     lin_mse = mean_squared_error(housing_labels, housing_predictions)
@@ -55,6 +56,7 @@ def dec_tree_scoring(model_location):
     with open(model_location+'/dec_tree.pkl', 'rb') as file:
         dec_tree_model = pickle.load(file)
     logging.info("Decision Tree Model Saved")
+    print(housing_prepared.columns)
 
     housing_predictions = dec_tree_model.predict(housing_prepared)
     tree_mse = mean_squared_error(housing_labels, housing_predictions)

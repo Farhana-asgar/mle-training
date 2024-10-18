@@ -3,12 +3,41 @@ import logging
 import numpy as np
 import pandas as pd
 from scipy.stats import randint
+from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.tree import DecisionTreeRegressor
 
 logger = logging.getLogger(__name__)
+
+
+class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
+
+    def __init__(self, add_bedrooms_per_room=True):  # no *args or **kargs
+        self.add_bedrooms_per_room = add_bedrooms_per_room
+
+    def fit(self, X, y=None):
+        return self  # nothing else to do
+
+    def transform(self, X):
+
+        rooms_ix, bedrooms_ix, population_ix, households_ix = 3, 4, 5, 6
+        rooms_per_household = X[:, rooms_ix] / X[:, households_ix]
+        population_per_household = X[:, population_ix] / X[:, households_ix]
+        if self.add_bedrooms_per_room:
+            column_names = ["rooms_per_household",
+                            "population_per_household",
+                            "bedrooms_per_room"]
+            bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
+            return np.c_[X, rooms_per_household, population_per_household,
+                         bedrooms_per_room], column_names
+
+        else:
+            column_names = ["rooms_per_household",
+                            "population_per_household"]
+            return np.c_[X, rooms_per_household, population_per_household], \
+                column_names
 
 
 def lin_reg(housing_prepared, housing_labels):
@@ -26,6 +55,7 @@ def lin_reg(housing_prepared, housing_labels):
     # Linear Regression model implementation
 
     lin_reg = LinearRegression()
+    print(housing_prepared.columns)
     lin_reg.fit(housing_prepared, housing_labels)
 
     # housing_predictions = lin_reg.predict(housing_prepared)
@@ -124,15 +154,25 @@ def random_forest(housing_prepared, housing_labels, strat_test_set, imputer,
     X_test_prepared = imputer.transform(X_test_num)
     X_test_prepared = pd.DataFrame(X_test_prepared, columns=X_test_num.columns,
                                    index=X_test.index)
-    X_test_prepared["rooms_per_household"] = X_test_prepared["total_rooms"] \
-        / X_test_prepared["households"]
-    X_test_prepared["bedrooms_per_room"] = X_test_prepared["total_bedrooms"]\
-        / X_test_prepared["total_rooms"]
-    X_test_prepared["population_per_household"] = \
-        X_test_prepared["population"] / X_test_prepared["households"]
+    col_names = list(X_test_prepared.columns)
+    attr_adder = CombinedAttributesAdder(add_bedrooms_per_room=True)
+    X_test_prepared_attribs, new_cols = attr_adder.transform(
+        X_test_prepared.values)
+
+    col_names += new_cols
+    X_test_prepared_df = pd.DataFrame(
+        X_test_prepared_attribs,
+        columns=col_names)
+
+    # X_test_prepared["rooms_per_household"] = X_test_prepared["total_rooms"] \
+    #     / X_test_prepared["households"]
+    # X_test_prepared["bedrooms_per_room"] = X_test_prepared["total_bedrooms"]\
+    #     / X_test_prepared["total_rooms"]
+    # X_test_prepared["population_per_household"] = \
+    #     X_test_prepared["population"] / X_test_prepared["households"]
     X_test_cat = X_test[['ocean_proximity']]
-    X_test_prepared = X_test_prepared.join(pd.get_dummies
-                                           (X_test_cat, drop_first=True))
+    X_test_prepared = X_test_prepared_df.join(pd.get_dummies
+                                              (X_test_cat, drop_first=True))
 
     X_test_prepared.to_csv(dataset_location+'/X_test_prepared.csv',
                            index=False)

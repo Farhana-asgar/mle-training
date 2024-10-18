@@ -19,24 +19,24 @@ class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
     def fit(self, X, y=None):
         return self  # nothing else to do
 
-    def transform(self, X):
-
+    def transform(self, df):
         rooms_ix, bedrooms_ix, population_ix, households_ix = 3, 4, 5, 6
-        rooms_per_household = X[:, rooms_ix] / X[:, households_ix]
-        population_per_household = X[:, population_ix] / X[:, households_ix]
-        if self.add_bedrooms_per_room:
-            column_names = ["rooms_per_household",
-                            "population_per_household",
-                            "bedrooms_per_room"]
-            bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
-            return np.c_[X, rooms_per_household, population_per_household,
-                         bedrooms_per_room], column_names
 
-        else:
-            column_names = ["rooms_per_household",
-                            "population_per_household"]
-            return np.c_[X, rooms_per_household, population_per_household], \
-                column_names
+        # Avoid division by zero by adding a small epsilon
+        households = df.iloc[:, households_ix]
+        epsilon = 1e-10  # Small constant to avoid division by zero
+
+        # Calculate features
+        df['rooms_per_household'] = df.iloc[:, rooms_ix] / (
+            households + epsilon)
+        df['population_per_household'] = df.iloc[:, population_ix] / (
+            households + epsilon)
+
+        df['bedrooms_per_room'] = df.iloc[:, bedrooms_ix] / (
+                df.iloc[:, rooms_ix] + epsilon)
+
+        # Specify the names of the new columns
+        return df
 
 
 DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml/master/"
@@ -197,29 +197,31 @@ def fill_missing_values(housing):
 
     housing_tr = pd.DataFrame(X, columns=housing_num.columns,
                               index=housing.index)
-    col_names = list(housing_tr.columns)
     # housing_tr["rooms_per_household"] = housing_tr["total_rooms"] \
     #     / housing_tr["households"]
     # housing_tr["bedrooms_per_room"] = housing_tr["total_bedrooms"] \
     #     / housing_tr["total_rooms"]
     # housing_tr["population_per_household"] = housing_tr["population"] \
     #     / housing_tr["households"]
+    print(housing_tr.columns)
 
-    attr_adder = CombinedAttributesAdder(add_bedrooms_per_room=True)
-    housing_extra_attribs, new_cols = attr_adder.transform(
-        housing_tr.values)
-    print(col_names)
+    attr_adder = CombinedAttributesAdder()
+    housing_extra_attribs = attr_adder.transform(
+         housing_tr)
+    # print(col_names)
 
-    col_names += new_cols
-    housing_extra_attribs_df = pd.DataFrame(
-        housing_extra_attribs,
-        columns=col_names)
+    # print(housing_extra_attribs)
+    # print(new_cols)
+
+    # col_names += new_cols
+    # housing_extra_attribs_df = pd.DataFrame(
+    #     housing_extra_attribs,
+    #     columns=col_names)
 
     housing_cat = housing[['ocean_proximity']]
     print("printing")
-    housing_extra_attribs_df = housing_extra_attribs_df.reset_index(drop=True)
-    housing_cat = housing_cat.reset_index(drop=True)
-    housing_prepared = housing_extra_attribs_df.join(pd.get_dummies(
+
+    housing_prepared = housing_extra_attribs.join(pd.get_dummies(
         housing_cat, drop_first=False))
     print(housing_prepared.columns)
 
