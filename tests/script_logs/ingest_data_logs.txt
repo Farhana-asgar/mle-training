@@ -1,9 +1,9 @@
-2024-10-24 17:24:47 - root -                 INFO - __init__:77 - In ingest_data_script.py
-2024-10-24 17:24:47 - root -                 INFO - __init__:78 - ---Data Ingestion Starts---
-2024-10-24 17:24:47 - root -                 INFO - __init__:79 - Read the inputs - Dataset location                               ./test_data
-2024-10-24 17:24:49 - root -                 INFO - fetch_housing_data:137 - Read and downloaded the data from                          https://raw.githubusercontent.com/ageron/handson-ml/master/datasets/housing/housing.tgz
-2024-10-24 17:24:49 - root -                 INFO - load_housing_data:156 - Housing data loaded
-2024-10-24 17:24:49 - root -                 INFO - prepare_dataset:219 - Preparation of dataset Done
-2024-10-24 17:24:49 - root -                 INFO - feature_engineering:241 - Feature Engineering performed
-2024-10-24 17:24:49 - root -                 INFO - fill_missing_values:284 - Missing values are filled and new attributes are derived
-2024-10-24 17:24:49 - root -                 INFO - __init__:112 - Training Data saved
+2024-10-24 23:46:20 - root -                 INFO - __init__:76 - In ingest_data_script.py
+2024-10-24 23:46:20 - root -                 INFO - __init__:77 - ---Data Ingestion Starts---
+2024-10-24 23:46:20 - root -                 INFO - __init__:78 - Read the inputs - Dataset location                               ./test_data
+2024-10-24 23:46:20 - root -                 INFO - fetch_housing_data:134 - Read and downloaded the data from                          https://raw.githubusercontent.com/ageron/handson-ml/master/datasets/housing/housing.tgz
+2024-10-24 23:46:20 - root -                 INFO - load_housing_data:153 - Housing data loaded
+2024-10-24 23:46:21 - root -                 INFO - prepare_dataset:216 - Preparation of dataset Done
+2024-10-24 23:46:21 - root -                 INFO - feature_engineering:238 - Feature Engineering performed
+2024-10-24 23:46:21 - root -                 INFO - fill_missing_values:281 - Missing values are filled and new attributes are derived
+2024-10-24 23:46:21 - root -                 INFO - __init__:111 - Training Data saved

@@ -11,7 +11,7 @@ class Score:
     def __init__(self, dataset_location,
                  model_location,
                  log_path='script_logs/score_logs.txt', log_level='INFO',
-                 no_console_log=False,):
+                 no_console_log=True,):
 
         with mlflow.start_run(nested=True, run_name="Score"):
             print(f"Running experiment: \

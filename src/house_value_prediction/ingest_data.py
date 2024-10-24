@@ -8,7 +8,6 @@ import tarfile
 import mlflow
 import numpy as np
 import pandas as pd
-from logging_tree import printout
 from six.moves import urllib
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.impute import SimpleImputer
@@ -53,7 +52,7 @@ class IngestData:
 
     def __init__(self, dataset_location,
                  log_path='script_logs/ingest_data_logs.txt',
-                 log_level='INFO', no_console_log=False, housing_url=None,
+                 log_level='INFO', no_console_log=True, housing_url=None,
                  housing_path=None):
         with mlflow.start_run(nested=True, run_name="Ingest Data"):
             print(f"Running experiment: \
@@ -110,8 +109,6 @@ class IngestData:
             mlflow.log_artifact(dataset_location + '/imputer.pkl')
 
             self.logger.info("Training Data saved")
-
-            printout()
 
     def fetch_housing_data(self):
         """
