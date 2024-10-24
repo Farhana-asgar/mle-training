@@ -78,8 +78,11 @@ jobs:
       - name: Install the package
         run: |
           cd artifacts
-          pip install mlflow
           pip install house_value_prediction-0.0.1-py3-none-any.whl
+      - name: Start MLflow tracking server
+        run: |
+          pip install mlflow
+          mlflow server &
       - name: Run pytest
         run: |
           cd ..
