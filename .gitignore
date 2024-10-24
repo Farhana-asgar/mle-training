@@ -1,1 +1,4 @@
 *.pyc
+mlruns/
+.vscode
+mlflow_data/
