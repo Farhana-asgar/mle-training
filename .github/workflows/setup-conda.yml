@@ -29,8 +29,8 @@ jobs:
           conda activate mle-dev
       - name: Start MLflow tracking server
         run: |
+          pip install mlflow
           mlflow server
-
       - name: Build the package
         run: |
           pip install build
@@ -39,7 +39,7 @@ jobs:
           pip install house_value_prediction-0.0.1-py3-none-any.whl
           cd ..
           cd scripts
-          pip install mlflow
+
           python main_script.py
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
