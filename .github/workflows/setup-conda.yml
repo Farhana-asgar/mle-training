@@ -13,7 +13,7 @@ jobs:
     defaults:
       run:
         shell: bash -el {0}
-    name: Build Job
+    name: Build and Run Job
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
