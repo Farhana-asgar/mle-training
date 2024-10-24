@@ -30,7 +30,9 @@ jobs:
       - name: Start MLflow tracking server
         run: |
           pip install mlflow
-          mlflow server
+          mlflow server &
+      - name: Wait for MLflow server to start
+        run: sleep 10
       - name: Build the package
         run: |
           pip install build
