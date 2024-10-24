@@ -13,7 +13,7 @@ class Score:
                  log_path='script_logs/score_logs.txt', log_level='INFO',
                  no_console_log=False,):
 
-        with mlflow.start_run(nested=True):
+        with mlflow.start_run(nested=True, run_name="Score"):
             print(f"Running experiment: \
                 {mlflow.active_run().info.experiment_id}")
             print(mlflow.active_run().info.run_id)

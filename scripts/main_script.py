@@ -13,7 +13,7 @@ mlflow.set_experiment(exp_name)
 
 
 def main():
-    with mlflow.start_run():
+    with mlflow.start_run(run_name="Main Script"):
         dataset_location = './scripts_output/ingest_data'
         model_location = './scripts_output/train'
         IngestData(dataset_location)
