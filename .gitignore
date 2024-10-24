@@ -2,8 +2,3 @@
 mlruns/
 .vscode
 mlflow_data/
-scripts/script_logs/
-scripts/scripts_output/
-tests/model_data
-tests/test_logs
-tests/script_data
