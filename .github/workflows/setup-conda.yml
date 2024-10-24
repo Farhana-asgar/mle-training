@@ -85,7 +85,6 @@ jobs:
           mlflow server &
       - name: Run pytest
         run: |
-          cd ..
           cd tests
           pytest
       - name: Building docs using sphinx
