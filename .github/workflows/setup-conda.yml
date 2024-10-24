@@ -86,6 +86,7 @@ jobs:
       - name: Run pytest
         run: |
           cd tests
+          pip install pytest
           pytest
       - name: Building docs using sphinx
         run: |
