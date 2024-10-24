@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: house_value_prediction
+Version: 0.0.1
+Summary: A package for house value prediction
+Author-email: Farhana Mohamed Asgar <farhana.asgar@tigeranalytics.com>
+Keywords: regression,machine learning,data processing
+Classifier: Programming Language :: Python :: 3
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Requires-Dist: scipy
+Requires-Dist: six
+Requires-Dist: matplotlib
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+
+
+# Median Housing Value Prediction
+
+This repository contains code for predicting median housing values.
+
+## Installation
+
+To install the package, use the following command:
+
+```bash
+pip install house_value_prediction-0.0.1-py3-none-any.whl
+```
+
+## Usage
+
+After installation, you can execute the script to run the prediction model:
+
+1. Navigate to the `scripts` directory:
+   ```bash
+   cd scripts
+   ```
+
+2. Run the main script:
+   ```bash
+   python main_script.py
+   ```
+
+This will execute the median housing value prediction process.

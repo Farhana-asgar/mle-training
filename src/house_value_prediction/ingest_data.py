@@ -55,7 +55,7 @@ class IngestData:
                  log_path='script_logs/ingest_data_logs.txt',
                  log_level='INFO', no_console_log=False, housing_url=None,
                  housing_path=None):
-        with mlflow.start_run(nested=True):
+        with mlflow.start_run(nested=True, run_name="Ingest Data"):
             print(f"Running experiment: \
                   {mlflow.active_run().info.experiment_id}")
             print(mlflow.active_run().info.run_id)
