@@ -25,16 +25,14 @@ jobs:
           use-only-tar-bz2: true
       - name: Conda Setup
         run: |
-          echo "Setting up conda env"
-          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
-          echo "activate conda env"
+          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8 mlflow
           conda activate mle-dev
-          echo "conda env activated"
+
       - name: Build the package
         run: |
           pip install build
           python -m build
-      - name: Install the package and run test
+      - name: Install the package and run
         run: |
           cd dist
           pip install house_value_prediction-0.0.1-py3-none-any.whl
