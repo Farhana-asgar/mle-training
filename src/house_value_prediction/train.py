@@ -5,11 +5,9 @@ import pickle
 import mlflow
 import numpy as np
 import pandas as pd
-from scipy.stats import randint
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from sklearn.tree import DecisionTreeRegressor
 
 remote_server_uri = "http://localhost:5000"
@@ -52,7 +50,7 @@ class Train:
                  model_location,
                  log_path='script_logs/train_logs.txt',
                  log_level='INFO',
-                 no_console_log=False):
+                 no_console_log=True):
 
         with mlflow.start_run(nested=True, run_name="Train"):
             print(f"Running experiment: \
@@ -170,54 +168,9 @@ class Train:
                 The Decision Tree Model
             y_test (Series): The label column value
         """
-        # Random Forest model implementation
-        param_distribs = {
-            "n_estimators": randint(low=1, high=200),
-            "max_features": randint(low=1, high=8),
-        }
-        forest_reg = RandomForestRegressor(random_state=42)
-        rnd_search = RandomizedSearchCV(
-            forest_reg,
-            param_distributions=param_distribs,
-            n_iter=10,
-            cv=5,
-            scoring="neg_mean_squared_error", random_state=42,)
-        rnd_search.fit(housing_prepared, housing_labels)
-        cvres = rnd_search.cv_results_
-        print("Random Forest Hyperparameter tuning results:")
-        for mean_score, params in zip(cvres["mean_test_score"],
-                                      cvres["params"]):
-            print("Root Mean Squared Error - {}".format((np.sqrt(-mean_score),
-                                                        params)))
-
-        param_grid = [
-            # try 12 (3×4) combinations of hyperparameters
-            {"n_estimators": [3, 10, 30], "max_features": [2, 4, 6, 8]},
-            # then try 6 (2×3) combinations with bootstrap set as False
-            {"bootstrap": [False], "n_estimators": [3, 10],
-             "max_features": [2, 3, 4]},
-        ]
 
         forest_reg = RandomForestRegressor(random_state=42)
-        # train across 5 folds, that's a total of (12+6)*5=90 rounds \
-        # of training
-        grid_search = GridSearchCV(forest_reg, param_grid, cv=5,
-                                   scoring='neg_mean_squared_error',
-                                   return_train_score=True)
-        grid_search.fit(housing_prepared, housing_labels)
-        grid_search.best_params_
-        cvres = grid_search.cv_results_
-        print("\n Random Forest Grid Search Hyper parameter tuning")
-        for mean_score, params in zip(cvres["mean_test_score"],
-                                      cvres["params"]):
-            print("Root Mean Squared Error - {}".format((np.sqrt(-mean_score),
-                                                        params)))
-
-        feature_importances = grid_search.best_estimator_.feature_importances_
-        sorted(zip(feature_importances, housing_prepared.columns),
-               reverse=True)
-
-        final_model = grid_search.best_estimator_
+        forest_reg.fit(housing_prepared, housing_labels)
 
         X_test = strat_test_set.drop("median_house_value", axis=1)
         y_test = strat_test_set["median_house_value"].copy()
@@ -248,7 +201,7 @@ class Train:
         # return y_test, final_predictions
         self.logger.info("Random Forest Model Ready")
 
-        return y_test, final_model
+        return y_test, forest_reg
 
 
 LOGGING_DEFAULT_CONFIG = {

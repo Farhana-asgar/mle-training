@@ -21,7 +21,7 @@ def sample_data():
     score = Score(dataset_location=temp_dir_dataset,
                   model_location=temp_dir_model)
 
-    Score.global_variable_initialization(temp_dir_dataset)
+    score.global_variable_initialization(temp_dir_dataset)
 
     return temp_dir_dataset, temp_dir_model, score
 

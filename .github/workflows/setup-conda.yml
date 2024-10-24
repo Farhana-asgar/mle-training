@@ -13,7 +13,7 @@ jobs:
     defaults:
       run:
         shell: bash -el {0}
-    name: Build and Run Job
+    name: Build Job
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,17 +25,70 @@ jobs:
           use-only-tar-bz2: true
       - name: Conda Setup
         run: |
-          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8 mlflow
+          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
           conda activate mle-dev
-
       - name: Build the package
         run: |
           pip install build
           python -m build
-      - name: Install the package and run
-        run: |
           cd dist
           pip install house_value_prediction-0.0.1-py3-none-any.whl
           cd ..
           cd scripts
-          python -m main_script.py
+          pip install mlflow
+          python main_script.py
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: house_value_prediction_artifacts
+          path: dist/*
+
+  unit_test_and_docs_build_job:
+    defaults:
+      run:
+        shell: bash -el {0}
+    name: Pytest and Docs Build Job
+    runs-on: ubuntu-latest
+    needs: build_job
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          allow-softlinks: true
+          installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
+          show-channel-urls: true
+          use-only-tar-bz2: true
+      - name: Conda Setup
+        run: |
+          conda create --name mle-dev python=3.9 tree mlflow
+          conda activate mle-dev
+      - name: Tree structure before building docs
+        run: tree
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: house_value_prediction_artifacts
+          path: ./artifacts
+      - name: Install the package
+        run: |
+          cd artifacts
+          pip install house_value_prediction-0.0.1-py3-none-any.whl
+      - name: Run pytest
+        run: |
+          cd ..
+          cd tests
+          pytest
+      - name: Building docs using sphinx
+        run: |
+          pip install sphinx==7.3.7
+          pip install sphinx-rtd-theme==3.0.0
+          cd docs
+          make html
+      - name: Tree structure after building docs
+        run: tree
+
+      - name: Upload build docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs_artifacts
+          path: docs/*
