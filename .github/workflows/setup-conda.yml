@@ -9,41 +9,6 @@ on: [push]
 #     types: [submitted]
 
 jobs:
-  unit_test_job:
-    defaults:
-      run:
-        shell: bash -el {0}
-    name: Unit Test Job
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: conda-incubator/setup-miniconda@v3
-        with:
-          allow-softlinks: true
-          installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
-          show-channel-urls: true
-          use-only-tar-bz2: true
-      - name: Conda Setup
-        run: |
-          echo "Setting up conda env"
-          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
-          echo "activate conda env"
-          conda activate mle-dev
-          echo "conda env activated"
-      - name: Install the package in dev mode
-        run: |
-          python -m pip install --upgrade pip setuptools
-          pip cache purge
-          conda install fsspec
-          pip install -e .
-          pip install pytest
-          pip install pytest-mock
-          cd tests
-          pytest -s ingest_data_test.py train_test.py score_test.py
-      - name: Install Tree
-        run: sudo apt-get install -y tree
-      - name: Tree structure After Packaging
-        run: tree
   build_job:
     defaults:
       run:
@@ -60,73 +25,35 @@ jobs:
           use-only-tar-bz2: true
       - name: Conda Setup
         run: |
-          echo "Setting up conda env"
           conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
-          echo "activate conda env"
           conda activate mle-dev
-          echo "conda env activated"
+      - name: Start MLflow tracking server
+        run: |
+          pip install mlflow
+          mlflow server &
+      - name: Wait for MLflow server to start
+        run: sleep 10
       - name: Build the package
         run: |
           pip install build
           python -m build
-      - name: Install the package and run test
-        run: |
           cd dist
           pip install house_value_prediction-0.0.1-py3-none-any.whl
-          pip install pytest
-          pip install pytest-mock
-          echo "Running test"
           cd ..
-          cd tests
-          pytest installation_test.py
+          cd scripts
+
+          python main_script.py
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: house_value_prediction_artifacts
           path: dist/*
-  deploy_job:
+
+  unit_test_and_docs_build_job:
     defaults:
       run:
         shell: bash -el {0}
-    name: Deploy Job
-    needs: build_job
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: conda-incubator/setup-miniconda@v3
-        with:
-          allow-softlinks: true
-          installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-2/Miniforge-pypy3-4.8.3-2-Linux-x86_64.sh
-          show-channel-urls: true
-          use-only-tar-bz2: true
-      - name: Conda Setup
-        run: |
-          echo "Setting up conda env"
-          conda create --name mle-dev python=3.9 numpy matplotlib scipy scikit-learn pandas flake8
-          echo "activate conda env"
-          conda activate mle-dev
-          echo "conda env activated"
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: house_value_prediction_artifacts
-          path: ./artifacts
-      - name: Install the package and run tests
-        run: |
-          cd artifacts
-          pip install house_value_prediction-0.0.1-py3-none-any.whl
-      - name: Running Scripts
-        run: |
-          cd scripts
-          pip install logging_tree
-          python ingest_data_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --log-level DEBUG  --log-path  ingest_data_script_logs.txt
-          python train_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train --log-path  train_script_logs.txt
-          python score_script.py --dataset_location /home/runner/work/mle-training/mle-training/scripts_output/ingest_data --model_location /home/runner/work/mle-training/mle-training/scripts_output/train --log-path  score_script_logs.txt
-  docs_build_job:
-    defaults:
-      run:
-        shell: bash -el {0}
-    name: Docs Build Job
+    name: Pytest and Docs Build Job
     runs-on: ubuntu-latest
     needs: build_job
     steps:
@@ -152,6 +79,15 @@ jobs:
         run: |
           cd artifacts
           pip install house_value_prediction-0.0.1-py3-none-any.whl
+      - name: Start MLflow tracking server
+        run: |
+          pip install mlflow
+          mlflow server &
+      - name: Run pytest
+        run: |
+          cd tests
+          pip install pytest
+          pytest
       - name: Building docs using sphinx
         run: |
           pip install sphinx==7.3.7
@@ -160,6 +96,7 @@ jobs:
           make html
       - name: Tree structure after building docs
         run: tree
+
       - name: Upload build docs
         uses: actions/upload-artifact@v4
         with:
