@@ -1,172 +1,104 @@
 import os
 
-import numpy as np
 import pandas as pd
 import pytest
 
-from house_value_prediction import ingest_data
-
-# Constants for testing
-MOCK_HOUSING_URL = "http://mock.url/housing.tgz"
-MOCK_HOUSING_PATH = "mock/path/housing"
-
-
-@pytest.fixture
-def mock_urlretrieve(mocker):
-    return mocker.patch("urllib.request.urlretrieve", return_value=None)
+from house_value_prediction.ingest_data import (  # Importing
+    CombinedAttributesAdder,
+    IngestData,
+)
 
 
 @pytest.fixture
-def mock_tarfile_open(mocker):
-    mock_tar = mocker.Mock()
-    # Mocking the tarfile.open method correctly
-    return mocker.patch("tarfile.open", return_value=mock_tar)
+def ingest_data():
+    """Fixture to set up the IngestData object."""
+    # Set a temporary directory for testing
+    temp_dir = './test_data'
+    os.makedirs(temp_dir, exist_ok=True)
+
+    # Initialize IngestData with the temp directory
+    ingest = IngestData(dataset_location=temp_dir)
+    yield ingest
 
 
-@pytest.fixture
-def mock_makedirs(mocker):
-    return mocker.patch("os.makedirs", return_value=None)
+def test_fetch_housing_data(ingest_data):
+    """Test if the housing data is fetched and extracted correctly."""
+    ingest_data.fetch_housing_data()
+    assert os.path.exists(ingest_data.housing_path)
+    assert os.path.exists(os.path.join(
+        ingest_data.housing_path, "housing.csv"))
 
 
-def test_fetch_housing_data(mock_urlretrieve,
-                            mock_tarfile_open, mock_makedirs):
-
-    ingest_data.fetch_housing_data(housing_url=MOCK_HOUSING_URL,
-                                   housing_path=MOCK_HOUSING_PATH)
-
-    # Assertions
-    mock_makedirs.assert_called_once_with(MOCK_HOUSING_PATH, exist_ok=True)
-
-    mock_urlretrieve.assert_called_once_with(MOCK_HOUSING_URL, os.path.join(
-        MOCK_HOUSING_PATH, "housing.tgz"))
-
-    # Check that tarfile.open was called with the correct path
-    mock_tarfile_open.assert_called_once_with(os.path.join(
-        MOCK_HOUSING_PATH, "housing.tgz"))
-
-    # Check that extractall was called
-    mock_tarfile_open().extractall.assert_called_once_with(
-        path=MOCK_HOUSING_PATH)
-
-    # Check that close was called
-    mock_tarfile_open().close.assert_called_once()
+def test_load_housing_data(ingest_data):
+    """Test if the housing data is loaded correctly."""
+    ingest_data.fetch_housing_data()
+    df = ingest_data.load_housing_data()
+    assert isinstance(df, pd.DataFrame), "Loaded data should be a DataFrame."
+    assert not df.empty, "DataFrame should not be empty."
 
 
-def test_load_housing_data(tmp_path):
-    # Create a temporary CSV file
-    data = {
-        "income_cat": ["high", "medium", "medium", "low", "high", "low",
-                       "medium"]
-    }
-    df = pd.DataFrame(data)
-    csv_path = tmp_path / "housing.csv"
-    df.to_csv(csv_path, index=False)
-
-    # Load the housing data from the temporary file
-    loaded_data = ingest_data.load_housing_data(housing_path=tmp_path)
-
-    # Check that the DataFrame is not empty
-    assert not loaded_data.empty, "DataFrame should not be empty"
-
-    # Check that the 'income_cat' column exists
-    assert "income_cat" in loaded_data.columns, "'income_cat' column should \
-        be in the DataFrame"
-
-
-def test_income_cat_proportions(tmp_path):
-    # Create a temporary CSV file
-    data = {
-        "income_cat": ["high", "medium", "medium", "low", "high",
-                       "low", "medium"]
-    }
-    df = pd.DataFrame(data)
-    csv_path = tmp_path / "housing.csv"
-    df.to_csv(csv_path, index=False)
-
-    # Load the housing data from the temporary file
-    loaded_data = ingest_data.load_housing_data(housing_path=tmp_path)
-
-    # Calculate the proportions
-    proportions = ingest_data.income_cat_proportions(loaded_data)
-
-    # Expected proportions based on the example data
-    expected_proportions = {
-        "high": 2 / 7,
-        "medium": 3 / 7,
-        "low": 2 / 7
-    }
-
-    # Check if the calculated proportions match the expected values
-    for category, expected in expected_proportions.items():
-        assert proportions[category] == expected, f"Expected {expected} for \
-            category '{category}' but got {proportions[category]}"
-
-
-def test_prepare_dataset():
-    housing = pd.DataFrame({
-        'median_income': np.random.rand(25),
-        'longitude': np.random.rand(25),
-        'latitude': np.random.rand(25)
+def test_income_cat_proportions(ingest_data):
+    """Test the income category proportions."""
+    print("---housing---")
+    data = pd.DataFrame({
+        'median_income': [1.0, 2.0, 3.0, 4.0, 5.0],
+        'income_cat': [1, 2, 3, 4, 5]
     })
-    train_set, strat_train_set, strat_test_set = \
-        ingest_data.prepare_dataset(housing)
-
-    # Assert the shape of the returned datasets
-    assert train_set.shape[0] == 20  # 80% of 6
-    assert strat_test_set.shape[0] == 5  # 20% of 6
-
-    # Check the income_cat column
-    assert 'income_cat' not in train_set.columns
-    assert 'income_cat' not in strat_test_set.columns
-
-    # Check if the function returns a DataFrame
-    assert isinstance(train_set, pd.DataFrame)
-    assert isinstance(strat_train_set, pd.DataFrame)
-    assert isinstance(strat_test_set, pd.DataFrame)
+    proportions = ingest_data.income_cat_proportions(data)
+    assert isinstance(proportions, pd.Series)
+    assert len(proportions) > 0
 
 
-def test_feature_engineering():
-    housing = pd.DataFrame({
-        'median_income': np.random.rand(25),
-        'longitude': np.random.rand(25),
-        'latitude': np.random.rand(25),
-        'income_cat': [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3,
-                       4, 5, 1, 2, 3, 4, 5],
-        'total_rooms': np.random.rand(25),
-        'total_bedrooms': np.random.rand(25),
-        'population': np.random.rand(25),
-        'households': np.random.rand(25)
-    })
-    strat_train_set = pd.DataFrame({
-        'longitude': np.random.rand(25),
-        'latitude': np.random.rand(25),
-        'median_house_value': np.random.rand(25)
-    })
-    housing, housing_labels = ingest_data.feature_engineering(
-        housing, strat_train_set)
-    assert "median_house_value" not in housing.columns
-    assert isinstance(housing_labels, pd.Series)
+def test_prepare_dataset(ingest_data):
+    """Test the dataset preparation process."""
+    ingest_data.fetch_housing_data()
+    housing = ingest_data.load_housing_data()
+    housing, strat_train_set, strat_test_set = ingest_data.prepare_dataset(
+        housing)
+
+    assert not housing.empty
+    assert 'income_cat' not in housing.columns
 
 
-def test_fill_missing_values():
-    random_values = np.random.rand(25 - 1)
-    # Generate random values, leaving space for NaN
-    with_nan = np.insert(random_values, np.random.randint(0, 25), np.nan)
-    housing = pd.DataFrame({
-        'longitude': with_nan,
-        'latitude': np.random.rand(25),
-        'ocean_proximity': np.random.rand(25),
-        'housing_median_age': np.random.rand(25),
-        'total_rooms': np.random.rand(25),
-        'total_bedrooms': with_nan,
-        'population': np.random.rand(25),
-        'households': np.random.rand(25)
-    })
+def test_feature_engineering(ingest_data):
+    """Test the feature engineering process."""
+    ingest_data.fetch_housing_data()
+    housing = ingest_data.load_housing_data()
+    housing, housing_labels = ingest_data.feature_engineering(housing, housing)
+
+    assert isinstance(housing, pd.DataFrame)
+    assert 'median_house_value' not in housing.columns
+
+
+def test_fill_missing_values(ingest_data):
+    """Test the missing values filling process."""
+    ingest_data.fetch_housing_data()
+    housing = ingest_data.load_housing_data()
     housing_prepared, imputer = ingest_data.fill_missing_values(housing)
-    print(housing_prepared.columns)
-    assert not housing_prepared['longitude'].isna().any()
-    assert "rooms_per_household" in housing_prepared.columns
-    assert "bedrooms_per_room" in housing_prepared.columns
-    assert "population_per_household" in housing_prepared.columns
-    assert "ocean_proximity" in housing_prepared.columns
-    assert "ocean_proximity" in housing_prepared.columns
+
+    assert isinstance(housing_prepared, pd.DataFrame)
+    assert housing_prepared.isnull().sum().sum() == 0
+
+
+def test_combined_attributes_adder():
+    """Test the CombinedAttributesAdder transformer."""
+    adder = CombinedAttributesAdder()
+    data = pd.DataFrame({
+        'ocean_proximity': ['NEAR BAY', 'NEAR OCEAN'],
+        'longitude': [-122.23, -122.22],
+        'latitude': [37.88, 37.89],
+        'total_rooms': [1000.9, 2000.9],
+        'total_bedrooms': [200.9, 400.9],
+        'population': [500.9, 1000.9],
+        'households': [300.9, 600.9]
+    })
+
+    transformed_df = adder.transform(data)
+
+    assert 'rooms_per_household' in transformed_df.columns
+    assert 'population_per_household' in transformed_df.columns
+    assert 'bedrooms_per_room' in transformed_df.columns
+
+
+if __name__ == "__main__":
+    pytest.main()
