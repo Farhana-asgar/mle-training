@@ -106,6 +106,10 @@ class Train:
             self.y_test.to_csv(model_location+'/y_test.csv', index=False)
             self.logger.info("All 3 models are saved")
 
+            mlflow.log_artifact(model_location + '/lin_reg.pkl')
+            mlflow.log_artifact(model_location + '/dec_tree.pkl')
+            mlflow.log_artifact(model_location + '/random_forest.pkl')
+
             print("All models saved")
 
     def lin_reg(self, housing_prepared, housing_labels):
