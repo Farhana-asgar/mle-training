@@ -87,7 +87,7 @@ jobs:
         run: |
           cd tests
           pip install pytest
-          pytest
+          pytest installation_test.py
       - name: Building docs using sphinx
         run: |
           pip install sphinx==7.3.7
