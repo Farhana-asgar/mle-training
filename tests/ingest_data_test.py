@@ -45,9 +45,9 @@ def ingest_data():
         time.sleep(5)
     except Exception as e:
         print(f"Failed to start MLflow server: {e}")
-
-    ingest = IngestData(dataset_location=temp_dir, no_console_log=True)
-    yield ingest
+    with mlflow.start_run():
+        ingest = IngestData(dataset_location=temp_dir, no_console_log=True)
+        yield ingest
 
 
 def test_fetch_housing_data(ingest_data):
