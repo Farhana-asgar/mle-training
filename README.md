@@ -11,11 +11,19 @@ This repository contains the **House Value Prediction** project, which includes 
    cd house-value-prediction
    ```
 
-2. **Install the package**:
-   Navigate to the `src/` directory, build the package, and install it.
+2. **Create Conda Environment**:
+   Run the below command to create a conda environment
 
    ```bash
-   python -m build
+   conda env create -f env.yaml
+   conda activate house_value_prediction_env
+   ```
+
+3. **Install the package**:
+   Run the below command to create a conda environment
+
+   ```bash
+   pip install house_value_prediction-0.0.1-py3-none-any.whl
    ```
 
 ## Running the Project
@@ -34,6 +42,19 @@ The main script to execute the end-to-end flow is located in the `scripts/` dire
    python main_script.py
    ```
 
+3. **Configuration(Optional)**:
+
+Logs of the script will be available in scripts/script_logs folder.  You can opt whether or not to view it on the screen while running.
+
+
+- **Disable Log Display in screen**:
+
+```bash
+cd scripts
+python main_script.py --no-console-log
+
+```
+
 ## Key Components
 
 ### `house_value_prediction` Package (`src/house_value_prediction`)
@@ -47,38 +68,19 @@ The main script to execute the end-to-end flow is located in the `scripts/` dire
 - **`main_script.py`**: The main execution script, calling functions from the `house_value_prediction` package to ingest data, train the model, and score the predictions.
 - **Outputs**: Results and logs are saved in the `scripts/scripts_output` folder.
 
-### Tests (`tests/`)
 
-- **Unit and integration tests** for each module in the `house_value_prediction` package.
+## Testing
+
+### **Unit Test**
+- For each module in the `house_value_prediction` package.
 - Test data and logs are stored in `tests/test_data` and `tests/script_logs`.
 
-## Testing the Installation
-
+### **Installation Test**
 After installing the package, you can verify the installation by importing the package in Python:
 
-```python
-import house_value_prediction
-print("House Value Prediction package installed successfully!")
-```
-
-Alternatively, run the main script to verify everything is set up correctly:
-
 ```bash
-python scripts/main_script.py
-```
-
-## Configuration
-
-Logs of the script will be available in script_log folder.  You can opt whether or not to view it on the screen while running the script by specifying the option when calling the script
-
-
-Certain configurations, such as dataset paths or model parameters, can be adjusted within the code files under `src/house_value_prediction/`. You can customize the following:
-
-- **Disable Log Display in screen**:
-```bash
-cd scripts
-python main_script.py --no-console-log
-
+cd tests
+python installation_test.py
 ```
 
 ## GitHub Actions
