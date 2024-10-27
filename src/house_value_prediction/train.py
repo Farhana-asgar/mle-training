@@ -10,12 +10,6 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 
-remote_server_uri = "http://localhost:5000"
-mlflow.set_tracking_uri(remote_server_uri)
-
-exp_name = "ElasticNet_wine"
-mlflow.set_experiment(exp_name)
-
 
 class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
 
@@ -47,10 +41,9 @@ class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
 
 class Train:
     def __init__(self, dataset_location,
-                 model_location,
+                 model_location, no_console_log,
                  log_path='script_logs/train_logs.txt',
-                 log_level='INFO',
-                 no_console_log=True):
+                 log_level='INFO'):
 
         with mlflow.start_run(nested=True, run_name="Train"):
             print(f"Running experiment: \
