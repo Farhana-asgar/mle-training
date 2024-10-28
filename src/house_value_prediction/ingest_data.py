@@ -13,12 +13,6 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
 
-remote_server_uri = "http://localhost:5000"
-mlflow.set_tracking_uri(remote_server_uri)
-
-exp_name = "ElasticNet_wine"
-mlflow.set_experiment(exp_name)
-
 
 class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
 
@@ -50,9 +44,9 @@ class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
 
 class IngestData:
 
-    def __init__(self, dataset_location,
+    def __init__(self, dataset_location, no_console_log,
                  log_path='script_logs/ingest_data_logs.txt',
-                 log_level='INFO', no_console_log=True, housing_url=None,
+                 log_level='INFO',  housing_url=None,
                  housing_path=None):
         with mlflow.start_run(nested=True, run_name="Ingest Data"):
             print(f"Running experiment: \
@@ -327,9 +321,6 @@ def configure_logger(
 
         if console:
             sh = logging.StreamHandler()
-            print(logging)
-            print(log_level)
-
             sh.setLevel(getattr(logging, log_level))
             formatter = logging.Formatter(LOGGING_DEFAULT_CONFIG['formatters']
                                           ['default']['format'],
@@ -339,4 +330,6 @@ def configure_logger(
             sh.setFormatter(formatter)
             logger.addHandler(sh)
 
+    return logger
+    return logger
     return logger
