@@ -10,7 +10,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 class Score:
     def __init__(self, dataset_location,
                  model_location, no_console_log,
-                 log_path='script_logs/score_logs.txt', log_level='INFO',
+                 log_path='./scripts/script_logs/score_logs.txt', log_level='INFO',
                  ):
 
         with mlflow.start_run(nested=True, run_name="Score"):

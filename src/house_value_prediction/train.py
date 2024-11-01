@@ -42,7 +42,7 @@ class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
 class Train:
     def __init__(self, dataset_location,
                  model_location, no_console_log,
-                 log_path='script_logs/train_logs.txt',
+                 log_path='./scripts/script_logs/train_logs.txt',
                  log_level='INFO'):
 
         with mlflow.start_run(nested=True, run_name="Train"):
