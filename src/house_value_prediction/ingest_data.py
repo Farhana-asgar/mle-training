@@ -65,8 +65,7 @@ class IngestData:
             if not housing_path:
                 BASE_PATH = os.path.dirname(os.path.dirname(
                     os.path.dirname(os.path.abspath(__file__))))
-                self.housing_path = os.path.join(BASE_PATH, "datasets",
-                                                 "housing")
+                self.housing_path = "./datasets/housing"
 
             self.logger.info("In ingest_data_script.py")
             self.logger.info("---Data Ingestion Starts---")
