@@ -27,4 +27,5 @@ USER myuser
 
 EXPOSE 5000
 
+RUN chmod +x /app/start.sh
 CMD ["./start.sh"]
