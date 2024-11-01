@@ -45,13 +45,14 @@ class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
 class IngestData:
 
     def __init__(self, dataset_location, no_console_log,
-                 log_path='script_logs/ingest_data_logs.txt',
+                 log_path='./scripts/script_logs/ingest_data_logs.txt',
                  log_level='INFO',  housing_url=None,
                  housing_path=None):
         with mlflow.start_run(nested=True, run_name="Ingest Data"):
             print(f"Running experiment: \
                   {mlflow.active_run().info.experiment_id}")
             print(mlflow.active_run().info.run_id)
+            print(log_path)
 
             self.logger = configure_logger(log_path=log_path,
                                            log_level=log_level,
@@ -309,6 +310,7 @@ def configure_logger(
             logger.removeHandler(hdlr)
 
         if log_path:
+            print(log_path)
             fh = logging.FileHandler(log_path, 'w')
             fh.setLevel(getattr(logging, log_level))
             # Set the formatter for the file handler
