@@ -1,9 +1,9 @@
 name: Build and Push Docker Image
 
-on: [push] # or any branch you want to trigger on
+on: [push]
 
 jobs:
-  build:
+  Docker-Push:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
     - name: Build the Docker image
       run: |
         cd deploy
-        docker build -t farhana06/house_value_prediction:1.0.0 .
+        docker build --no-cache -t farhana06/house_value_prediction:1.0.0 .
 
     - name: Push the Docker image to DockerHub
       run: |

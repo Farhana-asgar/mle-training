@@ -1,19 +1,30 @@
-# Dockerfile
-# Use a base image with Python
-FROM python:3.11.3-slim
+#Stage 1: Build
+FROM python:3.11.3-slim AS builder
 
-# Set the working directory in the container
+RUN useradd -m myuser
+
 WORKDIR /app
 
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the application code to the container
 COPY . .
-RUN pip install -r requirements.txt
-# Install dependencies
+
 RUN pip install --upgrade pip && pip install house_value_prediction-0.0.1-py3-none-any.whl
 
-# Expose the ports for both the application and MLflow (assuming 5000 for MLflow and 8000 for the application)
+# Stage 2: Run the application
+FROM python:3.11.3-slim
+
+RUN useradd -m myuser
+
+WORKDIR /app
+
+COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY --from=builder /app /app
+
+RUN chown -R myuser:myuser /app
+USER myuser
+
 EXPOSE 5000
 
-# Start both services: the application and MLflow UI
 CMD ["./start.sh"]
