@@ -18,11 +18,11 @@ jobs:
 
     - name: Pull the Docker image
       run: |
-        docker pull farhana06/house_value_prediction:1.0.1
+        docker pull farhana06/house_value_prediction:2.0.0
 
     - name: Run the Docker container
       run: |
-        sudo docker run -d -p 5000:5000 --name house_value_prediction_container farhana06/house_value_prediction:1.0.1
+        sudo docker run -d -p 5000:5000 --name house_value_prediction_container farhana06/house_value_prediction:2.0.0
     - name: Check container logs
       run: |
         docker logs house_value_prediction_container
