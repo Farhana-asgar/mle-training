@@ -22,4 +22,4 @@ jobs:
 
     - name: Run the Docker container
       run: |
-        docker run -d -p 5000:5000 --name house_value_prediction_container farhana06/house_value_prediction:1.0.0
+        sudo docker run -d -p 5000:5000 --name house_value_prediction_container farhana06/house_value_prediction:1.0.0
