@@ -50,8 +50,8 @@ def start_mlflow_server(host="0.0.0.0", port=5000):
 
 def main(no_console_log=False):
     with mlflow.start_run(run_name="Main Script"):
-        dataset_location = './scripts_output/ingest_data'
-        model_location = './scripts_output/train'
+        dataset_location = './scripts/scripts_output/ingest_data'
+        model_location = './scripts/scripts_output/train'
         IngestData(dataset_location, no_console_log)
         Train(dataset_location, model_location, no_console_log)
         Score(dataset_location, model_location, no_console_log)
