@@ -18,8 +18,8 @@ jobs:
 
     - name: Pull the Docker image
       run: |
-        docker pull farhana06/house_value_prediction:latest  # Replace with your actual image name and tag
+        docker pull farhana06/house_value_prediction:1.0.0  # Replace with your actual image name and tag
 
     - name: Run the Docker container
       run: |
-        docker run -d -p 5000:5000 --name house_value_prediction_container farhana06/house_value_prediction:latest
+        docker run -d -p 5000:5000 --name house_value_prediction_container farhana06/house_value_prediction:1.0.0
