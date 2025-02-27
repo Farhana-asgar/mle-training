@@ -1,0 +1,35 @@
+2025-02-27 17:52:23 - root -                 INFO - global_variable_initialization:154 - Global variables        longitude  latitude  ...  ocean_proximity_NEAR BAY  ocean_proximity_NEAR OCEAN
+0        -121.46     38.52  ...                     False                       False
+1        -117.23     33.09  ...                     False                        True
+2        -119.04     35.37  ...                     False                       False
+3        -117.13     32.75  ...                     False                        True
+4        -118.70     34.28  ...                     False                       False
+...          ...       ...  ...                       ...                         ...
+16507    -117.07     33.03  ...                     False                       False
+16508    -121.42     38.51  ...                     False                       False
+16509    -122.72     38.44  ...                     False                       False
+16510    -122.70     38.31  ...                     False                       False
+16511    -122.14     39.97  ...                     False                       False
+
+[16512 rows x 16 columns] and                      0         72100.0
+1        279600.0
+2         82700.0
+3        112500.0
+4        238300.0
+           ...   
+16507    268500.0
+16508     90400.0
+16509    140400.0
+16510    258100.0
+16511     62700.0
+Name: median_house_value, Length: 16512, dtype: float64 are initialized
+2025-02-27 17:52:23 - root -                 INFO - lin_reg_scoring:54 - Linear Regression Model Saved
+2025-02-27 17:52:23 - root -                 INFO - lin_reg_scoring:61 - Root Mean Squared Error for Linear Regression -                     68627.87390018684
+2025-02-27 17:52:23 - root -                 INFO - lin_reg_scoring:67 - Mean Absolute Error for Linear Regression - 49438.668609157714
+2025-02-27 17:52:23 - root -                 INFO - dec_tree_scoring:85 - Decision Tree Model Saved
+2025-02-27 17:52:23 - root -                 INFO - dec_tree_scoring:90 - Mean Squared Error for Decision Tree - 0.0
+2025-02-27 17:52:23 - root -                 INFO - dec_tree_scoring:95 - Root Mean Squared Error for Decision Tree -                      0.0
+2025-02-27 17:52:23 - root -                 INFO - random_forest_scoring:115 - Random Forest Model Saved
+2025-02-27 17:52:23 - root -                 INFO - random_forest_scoring:128 - 
+ Root Mean Squared Error of Random Forest -                      2340664599.0426383
+2025-02-27 17:52:23 - root -                 INFO - random_forest_scoring:130 - Root Mean Squared Error of Random Forest -                      48380.4154492563
