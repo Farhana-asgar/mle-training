@@ -1,9 +1,9 @@
-name: Deploy Docker Image
-
+name: Build, Push & Deploy to GCP
 on: [push]
 
 jobs:
-  Run-Job:
+  build-and-push:
+    name: Build & Push Docker Image
     runs-on: ubuntu-latest
 
     steps:
@@ -16,6 +16,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Build Docker Image
+        run: |
+          docker build -t farhana06/house_value_prediction:2.0.0 .
+
+      - name: Push Docker Image to DockerHub
+        run: |
+          docker push farhana06/house_value_prediction:2.0.0
       - name: Pull the Docker image
         run: |
           docker pull farhana06/house_value_prediction:2.0.0
@@ -31,3 +38,23 @@ jobs:
       - name: Check container logs
         run: |
           docker logs house_value_prediction_container
+
+  # deploy:
+  #   name: Deploy to Google Cloud Run
+  #   needs: build-and-push
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Authenticate with Google Cloud
+  #       run: |
+  #         echo "${{ secrets.GCLOUD_SERVICE_KEY }}" > gcloud-service-key.json
+  #         gcloud auth activate-service-account --key-file=gcloud-service-key.json
+  #         gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
+
+  #     - name: Deploy to Google Cloud Run
+  #       run: |
+  #         gcloud run deploy house-value-prediction \
+  #         --image=docker.io/farhana06/house_value_prediction:2.0.0 \
+  #         --platform=managed \
+  #         --region=us-central1 \
+  #         --allow-unauthenticated
