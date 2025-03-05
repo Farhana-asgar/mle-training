@@ -2,5 +2,5 @@
 mlruns/
 .vscode
 mlflow_data/
-deployt/scripts/scripts_output/train
+deploy/scripts/scripts_output/train
 deploy/scripts/scripts/scripts_output/train
