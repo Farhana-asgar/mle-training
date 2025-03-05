@@ -4,3 +4,4 @@ mlruns/
 mlflow_data/
 deploy/scripts/scripts_output/train
 deploy/scripts/scripts/scripts_output/train
+deploy/scripts/mlartifacts/*/artifacts/random_forest.pkl
