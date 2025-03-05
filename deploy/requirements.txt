@@ -4,3 +4,4 @@ scikit-learn
 mlflow
 setuptools==58.0.4
 wheel==0.37.0
+onnx

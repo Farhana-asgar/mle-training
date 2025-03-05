@@ -1,8 +1,8 @@
-2025-02-27 17:52:02 - root -                 INFO - __init__:57 - In train_script.py
-2025-02-27 17:52:02 - root -                 INFO - __init__:58 - ---Training Starts---
-2025-02-27 17:52:02 - root -                 INFO - __init__:60 - Read the inputs - Dataset location                              ./scripts/scripts_output/ingest_data and Model location                                ./scripts/scripts_output/train
-2025-02-27 17:52:02 - root -                 INFO - __init__:77 - All the required training data are loaded
-2025-02-27 17:52:02 - root -                 INFO - lin_reg:127 - Linear Regression Model Ready
-2025-02-27 17:52:02 - root -                 INFO - dec_tree:147 - Decision Tree Model Ready
-2025-02-27 17:52:20 - root -                 INFO - random_forest:199 - Random Forest Model Ready
-2025-02-27 17:52:20 - root -                 INFO - __init__:100 - All 3 models are saved
+2025-03-05 11:25:18 - root -                 INFO - __init__:57 - In train_script.py
+2025-03-05 11:25:18 - root -                 INFO - __init__:58 - ---Training Starts---
+2025-03-05 11:25:18 - root -                 INFO - __init__:60 - Read the inputs - Dataset location                              ./scripts/scripts_output/ingest_data and Model location                                ./scripts/scripts_output/train
+2025-03-05 11:25:18 - root -                 INFO - __init__:77 - All the required training data are loaded
+2025-03-05 11:25:18 - root -                 INFO - lin_reg:127 - Linear Regression Model Ready
+2025-03-05 11:25:19 - root -                 INFO - dec_tree:147 - Decision Tree Model Ready
+2025-03-05 11:25:35 - root -                 INFO - random_forest:199 - Random Forest Model Ready
+2025-03-05 11:25:36 - root -                 INFO - __init__:100 - All 3 models are saved

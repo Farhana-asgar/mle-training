@@ -1,0 +1,16 @@
+numpy
+pandas
+scikit-learn
+scipy
+six
+matplotlib
+onnx
+onnxruntime
+skl2onnx
+protobuf==4.24.4
+grpcio-status==1.48.2
+
+[dev]
+black
+isort
+flake8

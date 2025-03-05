@@ -256,3 +256,4 @@ def configure_logger(
             logger.addHandler(sh)
 
     return logger
+    return logger

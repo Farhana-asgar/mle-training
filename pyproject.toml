@@ -22,7 +22,12 @@ dependencies = [
     "scikit-learn",
     "scipy",
     "six",
-    "matplotlib"
+    "matplotlib",
+    "onnx",
+    "onnxruntime",
+    "skl2onnx",
+    "protobuf==4.24.4",
+    "grpcio-status==1.48.2"
 ]
 
 [project.optional-dependencies]
