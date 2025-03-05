@@ -1,0 +1,5 @@
+outs:
+- md5: 07b17a2308c37559df477bdb71a54b40
+  size: 1066
+  hash: md5
+  path: lin_reg.pkl

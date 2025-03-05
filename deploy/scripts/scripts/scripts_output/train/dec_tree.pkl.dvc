@@ -1,0 +1,5 @@
+outs:
+- md5: 594e28d306ed15c51b74fcdc4c2be8da
+  size: 2272107
+  hash: md5
+  path: dec_tree.pkl
